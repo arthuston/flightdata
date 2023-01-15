@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Complete passengersWithThreeOrMoreFlightsTogether">
-      <change afterPath="$PROJECT_DIR$/src/test/scala/NumberFlightsEachMonthTest.scala" afterDir="false" />
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Add NumberFlightsEachMonthTest">
+      <change afterPath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/FlightData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Flights.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/totalnumberFlightsEachMonth.csv/part-00000-bedc5af4-b072-4d1f-a010-f63c6aad3ddf-c000.csv" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Passsengers.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Passsengers.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/scala/NumberFlightsEachMonthTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/NumberFlightsEachMonthTest.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +96,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FlightDataAssignment">
+  <component name="RunManager" selected="ScalaTest.NamesOfMostFrequentFlyersTest">
     <configuration name="FlightDataAssignment" type="Application" factoryName="Application" temporary="true">
       <envs>
         <env name="HADOOP_HOME" value="$PROJECT_DIR$\hadoop\2.6.0" />
@@ -115,7 +114,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="FlightDataAssignmentTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+    <configuration name="NamesOfMostFrequentFlyersTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="Flight_Data_Assignment" />
       <option name="allowRunningInParallel" value="false" />
       <option name="projectPathOnTarget" />
@@ -134,14 +133,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="NumberFlightsEachMonthTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="Flight_Data_Assignment" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Class" />
+      <option name="envs">
+        <map>
+          <entry key="HADOOP_HOME" value="$PROJECT_DIR$\hadoop\2.6.0" />
+        </map>
+      </option>
+      <option name="shortenClasspath" value="NONE" />
+      <option name="testClassPath" value="com.arthuston.quantexa.flightdata.NumberFlightsEachMonthTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.FlightDataAssignment" />
-      <item itemvalue="ScalaTest.FlightDataAssignmentTest" />
+      <item itemvalue="ScalaTest.NamesOfMostFrequentFlyersTest" />
+      <item itemvalue="ScalaTest.NumberFlightsEachMonthTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="ScalaTest.NumberFlightsEachMonthTest" />
         <item itemvalue="Application.FlightDataAssignment" />
-        <item itemvalue="ScalaTest.FlightDataAssignmentTest" />
       </list>
     </recent_temporary>
   </component>
@@ -168,7 +187,21 @@
       <option name="project" value="LOCAL" />
       <updated>1673645863441</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add NumberFlightsEachMonthTest">
+      <created>1673815774486</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1673815774486</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Add NumberFlightsEachMonthTest">
+      <created>1673815930010</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1673815930010</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -185,35 +218,21 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Complete totalNumberOfFlightsEachMonth and namesOfTheHundredMustFrequentFlyers" />
     <MESSAGE value="Complete passengersWithThreeOrMoreFlightsTogether" />
-    <option name="LAST_COMMIT_MESSAGE" value="Complete passengersWithThreeOrMoreFlightsTogether" />
+    <MESSAGE value="Add NumberFlightsEachMonthTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add NumberFlightsEachMonthTest" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>jar://$USER_HOME$/AppData/Local/Coursier/cache/v1/https/repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/2.6.5/hadoop-common-2.6.5-sources.jar!/org/apache/hadoop/util/Shell.java</url>
-          <line>377</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/AppData/Local/Coursier/cache/v1/https/repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/2.6.5/hadoop-common-2.6.5-sources.jar!/org/apache/hadoop/util/Shell.java</url>
-          <line>372</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/AppData/Local/Coursier/cache/v1/https/repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/2.6.5/hadoop-common-2.6.5-sources.jar!/org/apache/hadoop/util/Shell.java</url>
-          <line>314</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/AppData/Local/Coursier/cache/v1/https/repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/2.6.5/hadoop-common-2.6.5-sources.jar!/org/apache/hadoop/util/Shell.java</url>
           <line>321</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$USER_HOME$/AppData/Local/Coursier/cache/v1/https/repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/2.6.5/hadoop-common-2.6.5-sources.jar!/org/apache/hadoop/util/Shell.java</url>
-          <line>332</line>
-          <option name="timeStamp" value="11" />
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/test/scala/NumberFlightsEachMonthTest.scala</url>
+          <line>65</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -1,7 +1,12 @@
 /** Quantexa FlightDataAssignment main program test. */
 package com.arthuston.quantexa.flightdata
 
-import org.apache.spark.sql.types.{IntegerType, LongType, StructField, StructType}
+import org.apache.spark.sql.types.{IntegerType, LongType, StringType, StructField, StructType}
+import org.scalatest.FunSuite
+
+import java.sql.Date
+import org.apache.spark.sql.{Row, SparkSession}
+import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
 import org.scalatest.FunSuite
 
 import java.sql.Date
@@ -9,7 +14,7 @@ import org.apache.spark.sql.{Row, SparkSession}
 
 import scala.collection.JavaConversions._
 
-class NumberFlightsEachMonthTest extends FunSuite {
+class FlightDataAssignmentTest extends FunSuite {
   // Setup
   val spark = SparkSession
     .builder()
@@ -20,6 +25,8 @@ class NumberFlightsEachMonthTest extends FunSuite {
   import spark.implicits._
 
   test(testName = "testNumberFlightsEachMonth") {
+    println("testNumberFlightsEachMonth")
+
     val inputFlights = spark.createDataFrame(
       Seq(
         // two passengers same flight and day
@@ -63,6 +70,60 @@ class NumberFlightsEachMonthTest extends FunSuite {
     actual.show()
 
     // TODO: Expected [Month: int, Number of Flights: bigint], but got [Month: int, Number of Flights: bigint]
+    //    assertResult(expected) {
+    //      actual
+    //    }
+  }
+
+  test(testName = "testNamesOfMostFrequentFlyers") {
+    println("testNamesOfMostFrequentFlyers")
+
+    val inputFlights = spark.createDataFrame(
+      Seq(
+        // passenger 1
+        Row("pass1", "flight1", "from", "to", Date.valueOf("2017-01-01")),
+        // passenger 2
+        Row("pass2", "flight1", "from", "to", Date.valueOf("2017-01-01")),
+        Row("pass2", "flight1", "from", "to", Date.valueOf("2017-01-01")),
+        // passenger 3
+        Row("pass3", "flight2", "from", "to", Date.valueOf("2017-01-01")),
+        Row("pass3", "flight2", "from", "to", Date.valueOf("2017-01-01")),
+        Row("pass3", "flight2", "from", "to", Date.valueOf("2017-01-01")),
+      ),
+      Flights.Schema
+    )
+    val inputPassengers = spark.createDataFrame(
+      Seq(
+        // passenger 1
+        Row("pass1", "firstname1", "lastname1"),
+        Row("pass2", "firstname2", "lastname2"),
+        Row("pass3", "firstname3", "lastname3")
+      ),
+      Passengers.Schema)
+
+    val ExpectedSchema = StructType(
+      Array(
+        StructField(FlightDataAssignment.PassengerId, StringType),
+        StructField(FlightDataAssignment.NumberFlights, LongType),
+        StructField(FlightDataAssignment.FirstName, StringType),
+        StructField(FlightDataAssignment.LastName, StringType)
+      )
+    )
+
+    val expected = spark.createDataFrame(
+      Seq(
+        Row("pass3", 3L, "firstname3", "lastname3"),
+        Row("pass2", 2L, "firstname2", "lastname2")
+      ),
+      ExpectedSchema
+    )
+
+    val actual = FlightDataAssignment.namesOfMostFrequentFlyers(inputFlights, inputPassengers, 2)
+
+    expected.show()
+    actual.show()
+
+    // TODO: Fix Expected [Passenger ID: string, Number of Flights: bigint ... 2 more fields], but got [Passenger ID: string, Number of Flights: bigint ... 2 more fields]
 //    assertResult(expected) {
 //      actual
 //    }
