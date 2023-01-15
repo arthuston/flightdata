@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Complete totalNumberOfFlightsEachMonth and namesOfTheHundredMustFrequentFlyers">
-      <change afterPath="$PROJECT_DIR$/output/greatestNumberOfCountriesWithoutUK.csv/._SUCCESS.crc" afterDir="false" />
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Complete passengersWithThreeOrMoreFlightsTogether">
+      <change afterPath="$PROJECT_DIR$/src/test/scala/NumberFlightsEachMonthTest.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/FlightData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Flights.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Passsengers.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Passsengers.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +29,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Scala Class" />
+        <option value="ScalaTest Class" />
       </list>
     </option>
   </component>
@@ -61,6 +65,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "ScalaTest",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.ScalaTest": "org.scalatest.FunSuite",
     "last_opened_file_path": "C:/Users/art/Documents/@Career/@JobHunt/Companies/Quantexa/Project/Flight_Data_Assignment/src",
     "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
@@ -81,24 +87,24 @@
       <recent name="C:\Users\art\Documents\@Career\@JobHunt\Companies\Quantexa\Project\Flight_Data_Assignment\hadoop\null" />
       <recent name="C:\Users\art\Documents\@Career\@JobHunt\Companies\Quantexa\Project\Flight_Data_Assignment\hadoop\bin" />
     </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="org.scalatest.FunSuite" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.com.arthuston.quantexa.flightdata.FlightDataAssignment">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="Flight_Data_Assignment" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="com.arthuston.quantexa.flightdata.FlightDataAssignment" type="Application" factoryName="Application" temporary="true">
+  <component name="RunManager" selected="Application.FlightDataAssignment">
+    <configuration name="FlightDataAssignment" type="Application" factoryName="Application" temporary="true">
       <envs>
         <env name="HADOOP_HOME" value="$PROJECT_DIR$\hadoop\2.6.0" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="com.arthuston.quantexa.flightdata.FlightDataAssignment" />
       <module name="Flight_Data_Assignment" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="org.apache.spark.examples.sql.*" />
@@ -109,14 +115,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="FlightDataAssignmentTest" type="ScalaTestRunConfiguration" factoryName="ScalaTest" temporary="true" nameIsGenerated="true" show_console_on_std_err="false" show_console_on_std_out="false">
+      <module name="Flight_Data_Assignment" />
+      <option name="allowRunningInParallel" value="false" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <option name="testKind" value="Class" />
+      <option name="envs">
+        <map>
+          <entry key="HADOOP_HOME" value="$PROJECT_DIR$\hadoop\2.6.0" />
+        </map>
+      </option>
+      <option name="shortenClasspath" value="NONE" />
+      <option name="testClassPath" value="com.arthuston.quantexa.flightdata.FlightDataAssignmentTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Application.com.arthuston.quantexa.flightdata.FlightDataAssignment" />
+      <item itemvalue="Application.FlightDataAssignment" />
+      <item itemvalue="ScalaTest.FlightDataAssignmentTest" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.com.arthuston.quantexa.flightdata.FlightDataAssignment" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.FlightDataAssignment" />
+        <item itemvalue="ScalaTest.FlightDataAssignmentTest" />
       </list>
     </recent_temporary>
   </component>
@@ -136,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673643732000</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Complete passengersWithThreeOrMoreFlightsTogether">
+      <created>1673645863441</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1673645863441</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -152,7 +184,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Complete totalNumberOfFlightsEachMonth and namesOfTheHundredMustFrequentFlyers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Complete totalNumberOfFlightsEachMonth and namesOfTheHundredMustFrequentFlyers" />
+    <MESSAGE value="Complete passengersWithThreeOrMoreFlightsTogether" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complete passengersWithThreeOrMoreFlightsTogether" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

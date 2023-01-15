@@ -14,24 +14,23 @@ package com.arthuston.quantexa.flightdata
 import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, DateType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
-class FlightData(spark: SparkSession, path: String) {
-  // column names
+object Flights {
+  // schema
   val PassengerId = "passengerId"
   val FlightId = "flightId"
   val From = "from"
   val To = "to"
   val Date = "date"
-
-  // read CSV file
-  private val Schema = StructType(Array(
+  val Schema = StructType(Array(
     StructField(PassengerId, StringType, true),
     StructField(FlightId, StringType, true),
     StructField(From, StringType, true),
     StructField(To, StringType, true),
     StructField(Date, DateType, true))
   )
-
-  var df = spark.read.option("header", true).schema(Schema).csv(path)
+}
+class Flights(spark: SparkSession, path: String) {
+  val df = spark.read.option("header", true).schema(Flights.Schema).csv(path)
 
   // return DataFrame
   def data(): DataFrame = {

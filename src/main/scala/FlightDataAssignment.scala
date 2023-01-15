@@ -1,19 +1,20 @@
 /** Quantexa FlightDataAssignment main program. */
 package com.arthuston.quantexa.flightdata
 
-import org.apache.spark.sql.functions.{col, month}
+import org.apache.spark.sql.functions.{col, collect_list, month}
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SaveMode, SparkSession}
 
 object FlightDataAssignment {
   // column names
   val Month = "Month"
-  val NumberOfFlights = "Number of Flights"
+  val NumberFlights = "Number of Flights"
   val PassengerId = "Passenger ID"
   val FirstName = "First Name"
   val LastName = "Last Name"
   val PassengerId1 = "Passenger 1 Id"
   val PassengerId2 = "Passenger 2 Id"
-  val NumberOfFlightsTogether = "Number of Flights Together"
+  val numberFlightsTogether = "Number of Flights Together"
+  val ToList = "ToList"
 
   def main(args: Array[String]) {
     // input files
@@ -21,9 +22,9 @@ object FlightDataAssignment {
     val PassengersCsv = "./input/passengers.csv"
 
     // output files
-    val TotalNumberOfFlightsEachMonthCsv = "./output/totalNumberOfFlightsEachMonth.csv"
+    val numberFLightsEachMonthCsv = "./output/totalnumberFlightsEachMonth.csv"
     val NamesOfHundredMostFrequentFlyersCsv = "./output/namesOfTheHundredMostFrequentFlyers.csv"
-    val GreatestNumberOfCountriesWithoutUKCsv = "./output/greatestNumberOfCountriesWithoutUK.csv"
+    val GreatestnumberCountriesWithoutUKCsv = "./output/greatestnumberCountriesWithoutUK.csv"
     val PassengersWithThreeOrMoreFlightsTogetherCsv = "./output/passengersWithThreeOrMoreFlightsTogether.csv"
 
     // start spark session
@@ -34,16 +35,14 @@ object FlightDataAssignment {
       .getOrCreate()
 
     // read data
-    val flights = new FlightData(spark, FlightsCsv)
-    flights.data().show()
-    val passengers = new Passsengers(spark, PassengersCsv)
-    passengers.data().show()
+    val flights = new Flights(spark, FlightsCsv)
+    val passengers = new Passengers(spark, PassengersCsv)
 
     // calculations
-//    showAndSave(TotalNumberOfFlightsEachMonthCsv, totalNumberOfFlightsEachMonth(flights))
+    showAndSave(numberFLightsEachMonthCsv, numberFlightsEachMonth(flights.data()))
 //    showAndSave(NamesOfHundredMostFrequentFlyersCsv, namesOfTheHundredMustFrequentFlyers(flights, passengers))
-//    showAndSave(GreatestNumberOfCountriesWithoutUKCsv, greatestNumberOfCountriesWithoutUK(FlightData))
-    showAndSave(PassengersWithThreeOrMoreFlightsTogetherCsv, passengersWithThreeOrMoreFlightsTogether(flights))
+    showAndSave(GreatestnumberCountriesWithoutUKCsv, greatestnumberCountriesWithoutUK(flights))
+//    showAndSave(PassengersWithThreeOrMoreFlightsTogetherCsv, passengersWithThreeOrMoreFlightsTogether(flights))
 
     spark.stop()
   }
@@ -56,14 +55,17 @@ object FlightDataAssignment {
    * 2      456
    * …      …
    */
-  private def totalNumberOfFlightsEachMonth(flights: FlightData): Dataset[Row] = {
-    val flightsDf = flights.data()
-    flightsDf.select(
-      month(col(flights.Date)).alias(Month),
-      col(flights.FlightId)
-    ).distinct().sort(Month)
-      .groupBy(Month).count()
-      .withColumnRenamed("count", NumberOfFlights)
+  def numberFlightsEachMonth(flightsDf: DataFrame): DataFrame = {
+    flightsDf
+      // eliminate duplicate flightid/date
+      .groupBy(Flights.FlightId, Flights.Date).agg(Map.empty[String, String])
+      // convert date to month
+      .select(col(Flights.FlightId), month(col(Flights.Date)).alias(Month))
+      // sort and group by month
+      .sort(Month)
+      .groupBy(Month)
+      // get number of flights per month
+      .count().withColumnRenamed("count", NumberFlights)
   }
 
   /**
@@ -78,19 +80,19 @@ object FlightDataAssignment {
    * @param passengers
    * @return
    */
-  private def namesOfTheHundredMustFrequentFlyers(flights: FlightData, passengers: Passsengers): DataFrame = {
+  def namesOfTheHundredMustFrequentFlyers(flights: Flights, passengers: Passengers): DataFrame = {
     val flightDf = flights.data()
     val passengersDf = passengers.data()
-    flightDf.withColumnRenamed(flights.PassengerId, PassengerId)
-      .join(passengersDf, col(PassengerId) === col(passengers.PassengerId), "outer")
-      .groupBy(PassengerId, passengers.FirstName, passengers.LastName)
+    flightDf.withColumnRenamed(Flights.PassengerId, PassengerId)
+      .join(passengersDf, col(PassengerId) === col(Passengers.PassengerId), "outer")
+      .groupBy(PassengerId, Passengers.FirstName, Passengers.LastName)
       .count().sort(col("count").desc)
       .limit(100)
       .select(
         col(PassengerId),
-        col("count").as(NumberOfFlights),
-        col(passengers.FirstName).as(FirstName),
-        col(passengers.LastName).as(LastName)
+        col("count").as(NumberFlights),
+        col(Passengers.FirstName).as(FirstName),
+        col(Passengers.LastName).as(LastName)
       )
   }
 
@@ -106,13 +108,15 @@ object FlightDataAssignment {
    *
    * order the input by 'longest run in descending order'
    */
-  private def greatestNumberOfCountriesWithoutUK(flights: FlightData) = {
+  def greatestnumberCountriesWithoutUK(flights: Flights) = {
     flights.data()
+      .orderBy(Flights.PassengerId, Flights.Date)
+      .groupBy(Flights.PassengerId, Flights.To)
+      .agg(collect_list(col(Flights.To).as("to")))
   }
 
   /**
    * Find the passengers who have been on more than 3 flights together.
-   * The output should be in the following format:
    * Passenger 1 ID   Passenger 2 ID    Number of flights together
    * 56                78                  6
    * 12                34                  8
@@ -120,19 +124,19 @@ object FlightDataAssignment {
    *
    * order the input by 'number of flights flown together in descending order'.
    */
-  private def passengersWithThreeOrMoreFlightsTogether(flights: FlightData) = {
+  def passengersWithThreeOrMoreFlightsTogether(flights: Flights) = {
     val flightsDf = flights.data()
     flightsDf
-      .withColumnRenamed(flights.PassengerId, PassengerId1)
-      .join(flightsDf.withColumnRenamed(flights.PassengerId, PassengerId2),
-        Seq(flights.FlightId),
+      .withColumnRenamed(Flights.PassengerId, PassengerId1)
+      .join(flightsDf.withColumnRenamed(Flights.PassengerId, PassengerId2),
+        Seq(Flights.FlightId),
         "inner")
       .where(col(PassengerId1) < col(PassengerId2))
       .groupBy(col(PassengerId1), col(PassengerId2))
       .count()
       .where(col("count") > 3)
-      .withColumnRenamed("count", NumberOfFlightsTogether)
-      .orderBy(col(NumberOfFlightsTogether).desc, col(PassengerId1), col(PassengerId2))
+      .withColumnRenamed("count", numberFlightsTogether)
+      .orderBy(col(numberFlightsTogether).desc, col(PassengerId1), col(PassengerId2))
   }
 
   private def showAndSave(path: String, df: DataFrame) = {
