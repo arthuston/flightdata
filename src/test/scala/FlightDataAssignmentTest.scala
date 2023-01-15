@@ -127,7 +127,7 @@ class FlightDataAssignmentTest extends FunSuite {
       ExpectedSchema
     )
 
-    val actual1 = FlightDataAssignment.namesOfMostFrequentFlyers(inputFlights, inputPassengers, 4)
+    val actual1 = FlightDataAssignment.namesOf100MostFrequentFlyers(inputFlights, inputPassengers, 4)
 
     expected1.show()
     actual1.show()
@@ -146,7 +146,7 @@ class FlightDataAssignmentTest extends FunSuite {
       ExpectedSchema
     )
 
-    val actual2 = FlightDataAssignment.namesOfMostFrequentFlyers(inputFlights, inputPassengers, 3)
+    val actual2 = FlightDataAssignment.namesOf100MostFrequentFlyers(inputFlights, inputPassengers, 3)
 
     expected2.show()
     actual2.show()

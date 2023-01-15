@@ -22,10 +22,10 @@ object FlightDataAssignment {
     val PassengersCsv = "./input/passengers.csv"
 
     // output files
-    val numberFLightsEachMonthCsv = "./output/totalnumberFlightsEachMonth.csv"
-    val NamesOfHundredMostFrequentFlyersCsv = "./output/namesOfTheHundredMostFrequentFlyers.csv"
+    val NumberFightsEachMonthCsv = "./output/numberFlightsEachMonth"
+    val NamesOfHundredMostFrequentFlyersCsv = "./output/namesOfHundredMostFrequentFlyers"
     val GreatestNumberCountriesWithoutUKCsv = "./output/greatestnumberCountriesWithoutUK.csv"
-    val PassengersWithThreeOrMoreFlightsTogetherCsv = "./output/passengersWithThreeOrMoreFlightsTogether.csv"
+    val PassengersWithThreeOrMoreFlightsTogetherCsv = "./output/passengersWithThreeOrMoreFlightsTogether"
 
     // start spark session
     val spark = SparkSession
@@ -39,10 +39,10 @@ object FlightDataAssignment {
     val passengers = new Passengers(spark, PassengersCsv)
 
     // calculations
-    //    showAndSave(numberFLightsEachMonthCsv, numberFlightsEachMonth(flights.data()))
-    showAndSave(NamesOfHundredMostFrequentFlyersCsv, namesOfMostFrequentFlyers(flights.data(), passengers.data()))
+    showAndSave(NumberFightsEachMonthCsv, numberFlightsEachMonth(flights.data()))
+    showAndSave(NamesOfHundredMostFrequentFlyersCsv, namesOf100MostFrequentFlyers(flights.data(), passengers.data()))
     //    showAndSave(GreatestNumberCountriesWithoutUKCsv, greatestnumberCountriesWithoutUK(flights))
-    //    showAndSave(PassengersWithThreeOrMoreFlightsTogetherCsv, passengersWithThreeOrMoreFlightsTogether(flights))
+    showAndSave(PassengersWithThreeOrMoreFlightsTogetherCsv, passengersWithThreeOrMoreFlightsTogether(flights))
 
     spark.stop()
   }
@@ -59,7 +59,7 @@ object FlightDataAssignment {
    * @param passengers
    * @return
    */
-  def namesOfMostFrequentFlyers(flightsDf: DataFrame, passengersDf: DataFrame, limit: Int = 100): DataFrame = {
+  def namesOf100MostFrequentFlyers(flightsDf: DataFrame, passengersDf: DataFrame, limit: Int = 100): DataFrame = {
     flightsDf.withColumnRenamed(Flights.PassengerId, PassengerId)
       .join(passengersDf, col(PassengerId) === col(Passengers.PassengerId), "outer")
       .groupBy(PassengerId, Passengers.FirstName, Passengers.LastName)
@@ -71,14 +71,6 @@ object FlightDataAssignment {
         col(Passengers.FirstName).as(FirstName),
         col(Passengers.LastName).as(LastName)
       )
-  }
-
-  private def showAndSave(path: String, df: DataFrame) = {
-    println(path)
-    df.show()
-    // coalesce the data so we get a single csv file in a directory
-    // coalesce and repartition are expensive
-    df.coalesce(1).write.mode(SaveMode.Overwrite).option("header", true).csv(path)
   }
 
   /**
@@ -143,5 +135,13 @@ object FlightDataAssignment {
       .where(col("count") > 3)
       .withColumnRenamed("count", numberFlightsTogether)
       .orderBy(col(numberFlightsTogether).desc, col(PassengerId1), col(PassengerId2))
+  }
+
+  private def showAndSave(path: String, df: DataFrame) = {
+    println(path)
+    df.show()
+    // coalesce the data so we get a single csv file in a directory
+    // coalesce and repartition are expensive
+    df.coalesce(1).write.mode(SaveMode.Overwrite).option("header", true).csv(path)
   }
 }
