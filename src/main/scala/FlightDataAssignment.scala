@@ -12,8 +12,12 @@ object FlightDataAssignment {
   val FirstName = "First Name"
   val LastName = "Last Name"
   val PassengerId1 = "Passenger 1 Id"
+  private val FlightId1: String = "flightId1"
+  private val Date1: String = "date1"
   val PassengerId2 = "Passenger 2 Id"
-  val numberFlightsTogether = "Number of Flights Together"
+  private val FlightId2: String = "flightId2"
+  private val Date2: String = "date2"
+  val NumberFlightsTogether = "Number of Flights Together"
 
   def main(args: Array[String]) {
     // input files
@@ -40,7 +44,7 @@ object FlightDataAssignment {
     // calculations
     showAndSave(NumberFightsEachMonthCsv, numberFlightsEachMonth(flights.data()))
     showAndSave(NamesOfHundredMostFrequentFlyersCsv, namesOfMostFrequentFlyers(flights.data(), passengers.data(), 100))
-    //    showAndSave(defCsv, greatestNumberCountriesWithoutUK(flights))
+    showAndSave(defCsv, greatestNumberOfCountriesWithoutUK(flights.data()))
     showAndSave(PassengersWithThreeOrMoreFlightsTogetherCsv, passengersWithFlightsTogether(flights.data(), 4))
 
     spark.stop()
@@ -105,8 +109,8 @@ object FlightDataAssignment {
    *
    * order the input by 'longest run in descending order'
    */
-  def greatestNumberOfCountriesWithoutUK(flights: Flights) = {
-    flights.data()
+  def greatestNumberOfCountriesWithoutUK(flightsDf: DataFrame) = {
+    flightsDf
       .orderBy(Flights.PassengerId, Flights.Date)
       .groupBy(Flights.PassengerId, Flights.To)
       .agg(collect_list(col(Flights.To).as("to")))
@@ -122,22 +126,30 @@ object FlightDataAssignment {
    * order the input by 'number of flights flown together in descending order'.
    */
   def passengersWithFlightsTogether(flightsDf: DataFrame, minFlights: Int) = {
-    flightsDf
+    val passengers1Df = flightsDf
       .withColumnRenamed(Flights.PassengerId, PassengerId1)
-      .join(flightsDf.withColumnRenamed(Flights.PassengerId, PassengerId2),
-        Seq(Flights.FlightId),
-        "inner")
-      .where(col(PassengerId1) < col(PassengerId2))
-      .groupBy(col(PassengerId1), col(PassengerId2))
-      .count()
-      .where(col("count") > 3)
-      .orderBy(col("count").desc, col(PassengerId1), col(PassengerId2))
-      .withColumnRenamed("count", numberFlightsTogether)
+      .withColumnRenamed(Flights.FlightId, FlightId1)
+      .withColumnRenamed(Flights.Date, Date1)
+    val passengers2Df = flightsDf
+      .withColumnRenamed(Flights.PassengerId, PassengerId2)
+      .withColumnRenamed(Flights.FlightId, FlightId2)
+      .withColumnRenamed(Flights.Date, Date2)
+    passengers1Df
+      .join(
+        passengers2Df,
+        passengers1Df(FlightId1) === passengers2Df(FlightId2) &&
+          passengers1Df(Date1) === passengers2Df(Date2)
+      )
+      .where(passengers1Df(PassengerId1) < passengers2Df(PassengerId2))
+      .groupBy(col(PassengerId1), col(PassengerId2)).count()
+      .orderBy(col("count").desc)
+      .where(col("count") >= minFlights)
+      .withColumnRenamed("count", NumberFlightsTogether)
   }
 
   private def showAndSave(path: String, df: DataFrame) = {
     println(path)
-    df.show()
+    df.show(false)
     // coalesce the data so we get a single csv file in a directory
     // coalesce and repartition are expensive
     df.coalesce(1).write.mode(SaveMode.Overwrite).option("header", true).csv(path)

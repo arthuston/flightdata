@@ -63,8 +63,8 @@ class FlightDataAssignmentTest extends FunSuite {
       ExpectedSchema
     )
     val actual = FlightDataAssignment.numberFlightsEachMonth(flights)
-    expected.show()
-    actual.show()
+    expected.show(false)
+    actual.show(false)
 
     // TODO: Expected [Month: int, Number of Flights: bigint], but got [Month: int, Number of Flights: bigint]
     //    assertResult(expected) {
@@ -124,8 +124,8 @@ class FlightDataAssignmentTest extends FunSuite {
       expectedSchema
     )
     val actualLimit4 = FlightDataAssignment.namesOfMostFrequentFlyers(flights, passengers, 4)
-    expectedLimit4.show()
-    actualLimit4.show()
+    expectedLimit4.show(false)
+    actualLimit4.show(false)
 
     // TODO: Fix Expected [Passenger ID: string, Number of Flights: bigint ... 2 more fields], but got [Passenger ID: string, Number of Flights: bigint ... 2 more fields]
     //    assertResult(expectedLimit4) {
@@ -142,8 +142,8 @@ class FlightDataAssignmentTest extends FunSuite {
       expectedSchema
     )
     val actualLimit3 = FlightDataAssignment.namesOfMostFrequentFlyers(flights, passengers, 3)
-    expectedLimit3.show()
-    actualLimit3.show()
+    expectedLimit3.show(false)
+    actualLimit3.show(false)
 
     // TODO: Fix Expected [Passenger ID: string, Number of Flights: bigint ... 2 more fields], but got [Passenger ID: string, Number of Flights: bigint ... 2 more fields]
     //    assertResult(expectedLimit3) {
@@ -182,7 +182,7 @@ class FlightDataAssignmentTest extends FunSuite {
       Array(
         StructField(FlightDataAssignment.PassengerId1, StringType),
         StructField(FlightDataAssignment.PassengerId2, StringType),
-        StructField(FlightDataAssignment.numberFlightsTogether, LongType),
+        StructField(FlightDataAssignment.NumberFlightsTogether, LongType),
       )
     )
 
@@ -196,8 +196,8 @@ class FlightDataAssignmentTest extends FunSuite {
       expectedSchema
     )
     val actualMinFlights0 = FlightDataAssignment.passengersWithFlightsTogether(flights, 0)
-    expectedMinFlights0or1.show()
-    actualMinFlights0.show()
+    expectedMinFlights0or1.show(false)
+    actualMinFlights0.show(false)
 
     // TODO: Fix Expected [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field], but got [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field]
     //    assertResult(expectedMinFlights0or1) {
@@ -206,13 +206,13 @@ class FlightDataAssignmentTest extends FunSuite {
 
     println("testNamesOfMostFrequentFlyers minFlights = 1")
     val actualMinFlights1 = FlightDataAssignment.passengersWithFlightsTogether(flights, 1)
-    expectedMinFlights0or1.show()
-    actualMinFlights1.show()
+    expectedMinFlights0or1.show(false)
+    actualMinFlights1.show(false)
 
     // TODO: Fix Expected [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field], but got [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field]
-    //    assertResult(expectedMinFlights0or1) {
-    //      actualMinFlights0
-    //    }
+//    assertResult(expectedMinFlights0or1) {
+//      actualMinFlights1
+//    }
 
     println("testNamesOfMostFrequentFlyers minFlights = 3")
     val expectedMinFlights3 = spark.createDataFrame(
@@ -222,17 +222,43 @@ class FlightDataAssignmentTest extends FunSuite {
       expectedSchema
     )
     val actualMinFlights3 = FlightDataAssignment.passengersWithFlightsTogether(flights, 3)
-    expectedMinFlights3.show()
-    actualMinFlights3.show()
+    expectedMinFlights3.show(false)
+    actualMinFlights3.show(false)
 
     // TODO: Fix Expected [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field], but got [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field]
-//    assertResult(expectedMinFlights0or1) {
-//      actualMinFlights0
-//    }
+    //    assertResult(expectedMinFlights3) {
+    //      actualMinFlights3
+    //    }
   }
 
   test(testName="testGreatestNumberCountriesWithoutUK") {
     println("testGreatestNumberCountriesWithoutUK")
+
+    val flights = spark.createDataFrame(
+      Seq(
+        // zero flights together
+        Row("pass1", "flight1", "from", "to", Date.valueOf("2017-01-01")),
+        Row("pass1", "flight2", "from", "to", Date.valueOf("2017-01-01")),
+        Row("pass2", "flight1", "from", "to", Date.valueOf("2017-01-02")),
+        // one flight together
+        Row("pass3", "flight3", "from", "to", Date.valueOf("2017-01-03")),
+        Row("pass4", "flight3", "from", "to", Date.valueOf("2017-01-03")),
+        // two flights together (2 flights same day)
+        Row("pass5", "flight4", "from", "to", Date.valueOf("2017-01-04")),
+        Row("pass6", "flight4", "from", "to", Date.valueOf("2017-01-04")),
+        Row("pass5", "flight5", "from", "to", Date.valueOf("2017-01-04")),
+        Row("pass6", "flight5", "from", "to", Date.valueOf("2017-01-04")),
+        // three flights together (3 flights on different days)
+        Row("pass7", "flight6", "from", "to", Date.valueOf("2017-01-05")),
+        Row("pass8", "flight6", "from", "to", Date.valueOf("2017-01-05")),
+        Row("pass7", "flight6", "from", "to", Date.valueOf("2017-01-06")),
+        Row("pass8", "flight6", "from", "to", Date.valueOf("2017-01-06")),
+        Row("pass7", "flight6", "from", "to", Date.valueOf("2017-01-07")),
+        Row("pass8", "flight6", "from", "to", Date.valueOf("2017-01-07")),
+      ),
+      Flights.Schema)
+
+    FlightDataAssignment.greatestNumberOfCountriesWithoutUK(flights).show(false)
   }
 }
 
