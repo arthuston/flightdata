@@ -6,7 +6,6 @@ import org.scalatest.FunSuite
 
 import java.sql.Date
 import org.apache.spark.sql.{Row, SparkSession}
-import org.apache.spark.sql.types.{IntegerType, StructField, StructType}
 import org.scalatest.FunSuite
 
 import java.sql.Date
@@ -27,7 +26,7 @@ class FlightDataAssignmentTest extends FunSuite {
   test(testName = "testNumberFlightsEachMonth") {
     println("testNumberFlightsEachMonth")
 
-    val inputFlights = spark.createDataFrame(
+    val flights = spark.createDataFrame(
       Seq(
         // two passengers same flight and day
         Row("pass1", "flight1", "from", "to", Date.valueOf("2017-01-01")),
@@ -63,9 +62,7 @@ class FlightDataAssignmentTest extends FunSuite {
       ),
       ExpectedSchema
     )
-
-    val actual = FlightDataAssignment.numberFlightsEachMonth(inputFlights)
-
+    val actual = FlightDataAssignment.numberFlightsEachMonth(flights)
     expected.show()
     actual.show()
 
@@ -78,7 +75,7 @@ class FlightDataAssignmentTest extends FunSuite {
   test(testName = "testNamesOfMostFrequentFlyers") {
     println("testNamesOfMostFrequentFlyers")
 
-    val inputFlights = spark.createDataFrame(
+    val flights = spark.createDataFrame(
       Seq(
         // passenger 1 (1 flight: 1 flightId))
         Row("pass1", "flight1", "from", "to", Date.valueOf("2017-01-01")),
@@ -94,11 +91,10 @@ class FlightDataAssignmentTest extends FunSuite {
         Row("pass4", "flight4", "from", "to", Date.valueOf("2017-01-01")),
         Row("pass4", "flight5", "from", "to", Date.valueOf("2017-01-01")),
         Row("pass4", "flight6", "from", "to", Date.valueOf("2017-01-01")),
-
       ),
       Flights.Schema
     )
-    val inputPassengers = spark.createDataFrame(
+    val passengers = spark.createDataFrame(
       Seq(
         // passenger 1
         Row("pass1", "firstname1", "lastname1"),
@@ -108,7 +104,7 @@ class FlightDataAssignmentTest extends FunSuite {
       ),
       Passengers.Schema)
 
-    val ExpectedSchema = StructType(
+    val expectedSchema = StructType(
       Array(
         StructField(FlightDataAssignment.PassengerId, StringType),
         StructField(FlightDataAssignment.NumberFlights, LongType),
@@ -117,44 +113,126 @@ class FlightDataAssignmentTest extends FunSuite {
       )
     )
 
-    val expected1 = spark.createDataFrame(
+    println("testNamesOfMostFrequentFlyers limit = 4")
+    var expectedLimit4 = spark.createDataFrame(
       Seq(
         Row("pass4", 4L, "firstname4", "lastname4"),
         Row("pass3", 3L, "firstname3", "lastname3"),
         Row("pass2", 2L, "firstname2", "lastname2"),
         Row("pass2", 1L, "firstname1", "lastname1"),
       ),
-      ExpectedSchema
+      expectedSchema
     )
-
-    val actual1 = FlightDataAssignment.namesOf100MostFrequentFlyers(inputFlights, inputPassengers, 4)
-
-    expected1.show()
-    actual1.show()
+    val actualLimit4 = FlightDataAssignment.namesOfMostFrequentFlyers(flights, passengers, 4)
+    expectedLimit4.show()
+    actualLimit4.show()
 
     // TODO: Fix Expected [Passenger ID: string, Number of Flights: bigint ... 2 more fields], but got [Passenger ID: string, Number of Flights: bigint ... 2 more fields]
-    //    assertResult(expected1) {
-    //      actual1
+    //    assertResult(expectedLimit4) {
+    //      actualLimit4
     //    }
 
-    val expected2 = spark.createDataFrame(
+    println("testNamesOfMostFrequentFlyers limit = 3")
+    val expectedLimit3 = spark.createDataFrame(
       Seq(
         Row("pass4", 4L, "firstname4", "lastname4"),
         Row("pass3", 3L, "firstname3", "lastname3"),
         Row("pass2", 2L, "firstname2", "lastname2"),
       ),
-      ExpectedSchema
+      expectedSchema
     )
-
-    val actual2 = FlightDataAssignment.namesOf100MostFrequentFlyers(inputFlights, inputPassengers, 3)
-
-    expected2.show()
-    actual2.show()
+    val actualLimit3 = FlightDataAssignment.namesOfMostFrequentFlyers(flights, passengers, 3)
+    expectedLimit3.show()
+    actualLimit3.show()
 
     // TODO: Fix Expected [Passenger ID: string, Number of Flights: bigint ... 2 more fields], but got [Passenger ID: string, Number of Flights: bigint ... 2 more fields]
-    //    assertResult(expected2) {
-    //      actual2
+    //    assertResult(expectedLimit3) {
+    //      actualLimit3
     //    }
+  }
+
+  test(testName="testPassengersWithFlightsTogether") {
+    println("testPassengersWithFlightsTogether")
+
+    val flights = spark.createDataFrame(
+      Seq(
+        // zero flights together
+        Row("pass1", "flight1", "from", "to", Date.valueOf("2017-01-01")),
+        Row("pass1", "flight2", "from", "to", Date.valueOf("2017-01-01")),
+        Row("pass2", "flight1", "from", "to", Date.valueOf("2017-01-02")),
+        // one flight together
+        Row("pass3", "flight3", "from", "to", Date.valueOf("2017-01-03")),
+        Row("pass4", "flight3", "from", "to", Date.valueOf("2017-01-03")),
+        // two flights together (2 flights same day)
+        Row("pass5", "flight4", "from", "to", Date.valueOf("2017-01-04")),
+        Row("pass6", "flight4", "from", "to", Date.valueOf("2017-01-04")),
+        Row("pass5", "flight5", "from", "to", Date.valueOf("2017-01-04")),
+        Row("pass6", "flight5", "from", "to", Date.valueOf("2017-01-04")),
+        // three flights together (3 flights on different days)
+        Row("pass7", "flight6", "from", "to", Date.valueOf("2017-01-05")),
+        Row("pass8", "flight6", "from", "to", Date.valueOf("2017-01-05")),
+        Row("pass7", "flight6", "from", "to", Date.valueOf("2017-01-06")),
+        Row("pass8", "flight6", "from", "to", Date.valueOf("2017-01-06")),
+        Row("pass7", "flight6", "from", "to", Date.valueOf("2017-01-07")),
+        Row("pass8", "flight6", "from", "to", Date.valueOf("2017-01-07")),
+      ),
+      Flights.Schema)
+
+    val expectedSchema = StructType(
+      Array(
+        StructField(FlightDataAssignment.PassengerId1, StringType),
+        StructField(FlightDataAssignment.PassengerId2, StringType),
+        StructField(FlightDataAssignment.numberFlightsTogether, LongType),
+      )
+    )
+
+    println("testNamesOfMostFrequentFlyers minFlights = 0")
+    val expectedMinFlights0or1 = spark.createDataFrame(
+      Seq(
+        Row("pass7", "pass8", 3L),
+        Row("pass5", "pass6", 2L),
+        Row("pass3", "pass4", 1L),
+      ),
+      expectedSchema
+    )
+    val actualMinFlights0 = FlightDataAssignment.passengersWithFlightsTogether(flights, 0)
+    expectedMinFlights0or1.show()
+    actualMinFlights0.show()
+
+    // TODO: Fix Expected [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field], but got [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field]
+    //    assertResult(expectedMinFlights0or1) {
+    //      actualMinFlights0
+    //    }
+
+    println("testNamesOfMostFrequentFlyers minFlights = 1")
+    val actualMinFlights1 = FlightDataAssignment.passengersWithFlightsTogether(flights, 1)
+    expectedMinFlights0or1.show()
+    actualMinFlights1.show()
+
+    // TODO: Fix Expected [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field], but got [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field]
+    //    assertResult(expectedMinFlights0or1) {
+    //      actualMinFlights0
+    //    }
+
+    println("testNamesOfMostFrequentFlyers minFlights = 3")
+    val expectedMinFlights3 = spark.createDataFrame(
+      Seq(
+        Row("pass7", "pass8", 3L),
+      ),
+      expectedSchema
+    )
+    val actualMinFlights3 = FlightDataAssignment.passengersWithFlightsTogether(flights, 3)
+    expectedMinFlights3.show()
+    actualMinFlights3.show()
+
+    // TODO: Fix Expected [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field], but got [Passenger 1 Id: string, Passenger 2 Id: string ... 1 more field]
+//    assertResult(expectedMinFlights0or1) {
+//      actualMinFlights0
+//    }
+  }
+
+  test(testName="testGreatestNumberCountriesWithoutUK") {
+    println("testGreatestNumberCountriesWithoutUK")
   }
 }
 
