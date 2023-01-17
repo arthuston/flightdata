@@ -10,8 +10,8 @@ To run the project, Select Run -> Run... -> FlightDataAssignmentTest
 
 ## Output
 
-* [output/namesOfHundredMostFrequentFlyers](./output/namesOfHundredMostFrequentFlyers)
-* [output/totalNumberOfFlightsEachMonth](./output/totalNumberOfFlightsEachMonth)
-* [output/greatestNumberOfCountriesWithoutUK](./output/greatestNumberOfCountriesWithoutUK)
-* [output/passengersWithMoreThan3FlightsTogether](./output/passengersWithMoreThan3FlightsTogether)
+Running the program writes CSV files to [./output](./output)
+
+Sample output is in [./sample-output](./sample-output)
+
 
