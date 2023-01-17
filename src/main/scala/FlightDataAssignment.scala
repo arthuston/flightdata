@@ -1,5 +1,5 @@
-/** Quantexa FlightDataAssignment main program. */
-package com.arthuston.quantexa.flightdata
+/** FlightDataAssignment main program. */
+package com.arthuston.flightdata
 
 import org.apache.spark.sql.functions.{col, collect_list, max, month}
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SaveMode, SparkSession}

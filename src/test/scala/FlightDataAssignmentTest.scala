@@ -1,5 +1,5 @@
-/** Quantexa FlightDataAssignment main program test. */
-package com.arthuston.quantexa.flightdata
+/** FlightDataAssignment main program test. */
+package com.arthuston.flightdata
 
 import org.apache.spark.sql.types.{IntegerType, LongType, StringType, StructField, StructType}
 import org.scalatest.FunSuite

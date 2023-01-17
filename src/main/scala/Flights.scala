@@ -1,5 +1,5 @@
 /**
- * Quantexa FlightDataAssignment flight data reader.
+ * FlightDataAssignment flight data reader.
  * The flightData.csv file has the following columns:
  * Field        Description
  * passengerId  Integer representing the id of a passenger
@@ -9,7 +9,7 @@
  * Date         String representing the date of a flight
  */
 
-package com.arthuston.quantexa.flightdata
+package com.arthuston.flightdata
 
 import org.apache.spark.sql.types.{DoubleType, IntegerType, StringType, DateType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, SparkSession}
