@@ -10,7 +10,7 @@ To run the project, Select Run -> Run... -> FlightDataAssignmentTest
 
 ## Output
 
-Running the program writes CSV files to $PROJECT_DIR$./output
+Running the program writes CSV files to ./output in the root project directory.
 Sample output is in [./sample-output](./sample-output)
 
 
