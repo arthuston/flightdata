@@ -18,19 +18,19 @@ object Flights {
   // schema
   val PassengerId = "passengerId"
   val FlightId = "flightId"
-  val From = "from"
+  private val From = "from"
   val To = "to"
   val Date = "date"
   val Schema = StructType(Array(
-    StructField(PassengerId, StringType, true),
-    StructField(FlightId, StringType, true),
-    StructField(From, StringType, true),
-    StructField(To, StringType, true),
-    StructField(Date, DateType, true))
+    StructField(PassengerId, StringType, nullable = true),
+    StructField(FlightId, StringType, nullable = true),
+    StructField(From, StringType, nullable = true),
+    StructField(To, StringType, nullable = true),
+    StructField(Date, DateType, nullable = true))
   )
 }
 class Flights(spark: SparkSession, path: String) {
-  val df = spark.read.option("header", true).schema(Flights.Schema).csv(path)
+  val df = spark.read.option("header", value = true).schema(Flights.Schema).csv(path)
 
   // return DataFrame
   def data(): DataFrame = {

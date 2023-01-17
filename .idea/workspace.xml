@@ -7,9 +7,10 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="passengersWithFlightsTogether">
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Complete longest route without UK, cleanup and rename functions and csvs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/scala/Flights.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Flights.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -219,7 +220,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673895445836</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Complete longest route without UK, cleanup and rename functions and csvs">
+      <created>1673969421484</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1673969421484</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -239,7 +247,8 @@
     <MESSAGE value="Add NumberFlightsEachMonthTest" />
     <MESSAGE value="Add testNamesOfMostFrequentFlyers" />
     <MESSAGE value="passengersWithFlightsTogether" />
-    <option name="LAST_COMMIT_MESSAGE" value="passengersWithFlightsTogether" />
+    <MESSAGE value="Complete longest route without UK, cleanup and rename functions and csvs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Complete longest route without UK, cleanup and rename functions and csvs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

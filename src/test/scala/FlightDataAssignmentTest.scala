@@ -22,8 +22,8 @@ class FlightDataAssignmentTest extends FunSuite {
 
   import spark.implicits._
 
-  test(testName = "testNumberFlightsEachMonth") {
-    println("testNumberFlightsEachMonth")
+  test(testName = "testTotalNumberOfFlightsEachMonth") {
+    println("testTotalNumberOfFlightsEachMonth")
 
     val flights = spark.createDataFrame(
       Seq(
@@ -47,8 +47,8 @@ class FlightDataAssignmentTest extends FunSuite {
 
     val ExpectedSchema = StructType(
       Array(
-        StructField(FlightDataAssignment.Month, IntegerType, true),
-        StructField(FlightDataAssignment.NumberFlights, LongType, false)
+        StructField(FlightDataAssignment.Month, IntegerType, nullable = true),
+        StructField(FlightDataAssignment.NumberFlights, LongType, nullable = false)
       )
     )
 
@@ -61,7 +61,7 @@ class FlightDataAssignmentTest extends FunSuite {
       ),
       ExpectedSchema
     )
-    val actual = FlightDataAssignment.totalNumberFlightsEachMonth(spark, flights)
+    val actual = FlightDataAssignment.totalNumberOfFlightsEachMonth(spark, flights)
     expected.show(false)
     actual.show(false)
 
@@ -71,8 +71,8 @@ class FlightDataAssignmentTest extends FunSuite {
     //    }
   }
 
-  test(testName = "testNamesOfMostFrequentFlyers") {
-    println("testNamesOfMostFrequentFlyers")
+  test(testName = "testNamesOf100MostFrequentFlyers") {
+    println("testNamesOf100MostFrequentFlyers")
 
     val flights = spark.createDataFrame(
       Seq(
@@ -150,8 +150,8 @@ class FlightDataAssignmentTest extends FunSuite {
     //    }
   }
 
-  test(testName="testPassengersWithFlightsTogether") {
-    println("testPassengersWithFlightsTogether")
+  test(testName="testPassengersWithMoreThan3FlightsTogether") {
+    println("testPassengersWithMoreThan3FlightsTogether")
 
     val flightsDf = spark.createDataFrame(
       Seq(
@@ -230,8 +230,8 @@ class FlightDataAssignmentTest extends FunSuite {
     //    }
   }
 
-  test(testName="testGreatestNumberCountriesWithoutUK") {
-    println("testGreatestNumberCountriesWithoutUK")
+  test(testName="testGreatestNumberOfCountriesWithoutUK") {
+    println("testGreatestNumberOfCountriesWithoutUK")
 
     val flightsDf = spark.createDataFrame(
       Seq(
@@ -298,5 +298,4 @@ class FlightDataAssignmentTest extends FunSuite {
     df.show(false)
   }
 }
-
 

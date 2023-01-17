@@ -30,7 +30,7 @@ object FlightDataAssignment {
     val PassengersCsv = "./input/passengers.csv"
 
     // output files
-    val TotalNumberOfFightsEachMonthCsv = "./output/totalNumberOfFlightsEachMonth"
+    val TotalNumberOfFlightsEachMonthCsv = "./output/totalNumberOfFlightsEachMonth"
     val NamesOf100MostFrequentFlyersCsv = "./output/namesOfHundredMostFrequentFlyers"
     val GreatestNumberOfCountriesWithoutUKCsv = "./output/greatestNumberOfCountriesWithoutUK"
     val PassengersWithMoreThan3FlightsTogetherCsv = "./output/passengersWithMoreThan3FlightsTogether"
@@ -49,7 +49,7 @@ object FlightDataAssignment {
     val passengers = new Passengers(spark, PassengersCsv)
 
     // calculations
-    showAndSave(TotalNumberOfFightsEachMonthCsv, totalNumberFlightsEachMonth(spark, flights.data()))
+    showAndSave(TotalNumberOfFlightsEachMonthCsv, totalNumberOfFlightsEachMonth(spark, flights.data()))
     showAndSave(NamesOf100MostFrequentFlyersCsv, namesOf100MostFrequentFlyers(spark, flights.data(), passengers.data()))
     showAndSave(GreatestNumberOfCountriesWithoutUKCsv, greatestNumberOfCountriesWithoutUK(spark, flights.data()))
     showAndSave(PassengersWithMoreThan3FlightsTogetherCsv, passengersWithMoreThan3FlightsTogether(spark, flights.data(), 4))
@@ -91,9 +91,9 @@ object FlightDataAssignment {
    * 2      456
    * …      …
    */
-  def totalNumberFlightsEachMonth(spark: SparkSession, flightsDf: DataFrame): DataFrame = {
+  def totalNumberOfFlightsEachMonth(spark: SparkSession, flightsDf: DataFrame): DataFrame = {
     flightsDf
-      // eliminate duplicate flightid/date
+      // eliminate duplicate FlightId/Date
       .groupBy(Flights.FlightId, Flights.Date).agg(Map.empty[String, String])
       // convert date to month
       .select(col(Flights.FlightId), month(col(Flights.Date)).alias(Month))
@@ -123,12 +123,12 @@ object FlightDataAssignment {
       .agg(collect_list(col(Flights.To)).as("destinations"))
 
     import spark.implicits._
-    import scala.collection.JavaConversions._
+//    import scala.collection.JavaConversions._
 
     val longestRunDs = destinationsDf.map(row => {
       // get longest run without going to UK
       val passengerId = row.getString(0)
-      val destinations = row.getList[String](1)
+      val destinations = row.getList[String](1).asScala
 
       var curWithoutUk = 0
       var maxWithoutUk = 0
@@ -185,6 +185,6 @@ object FlightDataAssignment {
     df.show(false)
     // coalesce the data so we get a single csv file in a directory
     // coalesce and repartition are expensive
-    df.coalesce(1).write.mode(SaveMode.Overwrite).option("header", true).csv(path)
+    df.coalesce(1).write.mode(SaveMode.Overwrite).option("header", value = true).csv(path)
   }
 }
