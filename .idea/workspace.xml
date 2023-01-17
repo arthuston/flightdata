@@ -7,11 +7,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Rename functions">
-      <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Flights.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Flights.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Passengers.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/Passengers.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" afterDir="false" />
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Remove Quantexa">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,10 +85,10 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="ScalaTest.FlightDataAssignmentTest">
+  <component name="RunManager" selected="Application.FlightDataAssignment">
     <configuration name="FlightDataAssignment" type="Application" factoryName="Application" temporary="true">
       <envs>
-        <env name="HADOOP_HOME" value="$PROJECT_DIR$\hadoop\2.6.0" />
+        <env name="HADOOP_HOME" value="$PROJECT_DIR$/../Flight_Data_Assignment\hadoop\2.6.0" />
       </envs>
       <option name="MAIN_CLASS_NAME" value="com.arthuston.flightdata.FlightDataAssignment" />
       <module name="Flight_Data_Assignment" />
