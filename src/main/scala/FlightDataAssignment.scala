@@ -38,8 +38,6 @@ object FlightDataAssignment {
       .master("local[*]")
       .getOrCreate()
 
-    import spark.implicits._
-
     // read data
     val flightDs = readFlights(spark)
     val passengerDs = readPassengers(spark)
@@ -59,6 +57,7 @@ object FlightDataAssignment {
    * @return Dataset[FlightRaw]
    */
   private def readFlights(spark: SparkSession) = {
+    import spark.implicits._
     spark.read
       .option("header", value = true)
       .schema(FlightConst.Schema)
@@ -73,6 +72,7 @@ object FlightDataAssignment {
    * @return Dataset[PassengerRaw]
    */
   private def readPassengers(spark: SparkSession) = {
+    import spark.implicits._
     spark.read
       .option("header", value = true)
       .schema(PassengerConst.Schema)
@@ -105,11 +105,11 @@ object FlightDataAssignment {
     val dateToMonthDf = eliminateDupFlightDf
       .select(col(FlightConst.FlightId), month(col(FlightConst.Date)).alias(Month))
 
-    // group by month
-    val groupByMonthDs = dateToMonthDf.groupBy(Month)
-
     // sort by month ascending
-    val sortByMonthDf = groupByMonthDs.sort(col(Month))
+    val sortByMonthDf = dateToMonthDf.sort(col(Month))
+
+    // group by month
+    val groupByMonthDs = sortByMonthDf.groupBy(Month)
 
     // get number of flights each month
     val numberOfFlightsEachMonthDf = groupByMonthDs
