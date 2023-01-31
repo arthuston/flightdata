@@ -7,16 +7,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Fix README.md">
-      <change afterPath="$PROJECT_DIR$/src/main/scala/FlightAndPassengerConst.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/FlightConst.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/FlightRaw.scala" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/scala/PassengerRaw.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Refactor greatestNumberOfCountriesWithoutUK">
       <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Flights.scala" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/Passengers.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/PassengerConst.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,22 +46,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "ScalaTest",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.ScalaTest": "org.scalatest.FunSuite",
-    "last_opened_file_path": "C:/Users/art/OneDrive/Documents/@Career/@JobHunt/Companies/Quantexa/Project/Flight_Data_Assignment/src/main/scala",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.build.tools.auto.reload": "ALL",
-    "settings.editor.selected.configurable": "preferences.sourceCode.Scala"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;ScalaTest&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.ScalaTest&quot;: &quot;org.scalatest.FunSuite&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/art/OneDrive/Documents/@Career/@JobHunt/Companies/Quantexa/Project/Flight_Data_Assignment/src/main/scala&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.build.tools.auto.reload&quot;: &quot;ALL&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Scala&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\art\OneDrive\Documents\@Career\@JobHunt\Companies\Quantexa\Project\Flight_Data_Assignment\src\main\scala" />
@@ -295,7 +287,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala</url>
-          <line>204</line>
+          <line>223</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>

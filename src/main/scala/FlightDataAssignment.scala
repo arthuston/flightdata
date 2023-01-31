@@ -41,16 +41,8 @@ object FlightDataAssignment {
     import spark.implicits._
 
     // read data
-    val flightDs = spark.read
-      .option("header", value = true)
-      .schema(FlightConst.Schema)
-      .csv(FlightConst.File)
-      .as[FlightRaw]
-    val passengerDs = spark.read
-      .option("header", value = true)
-      .schema(PassengerConst.Schema)
-      .csv(PassengerConst.File)
-      .as[PassengerRaw]
+    val flightDs = readFlights(spark)
+    val passengerDs = readPassengers(spark)
 
     // calculations
     showAndSave(TotalNumberOfFlightsEachMonthCsv, totalNumberOfFlightsEachMonth(spark, flightDs))
@@ -59,6 +51,33 @@ object FlightDataAssignment {
     showAndSave(PassengersWithMoreThan3FlightsTogetherCsv, passengersWithMoreThan3FlightsTogether(spark, flightDs, 4))
 
     spark.stop()
+  }
+
+  /**
+   * Read flights CSV file
+   * @param spark spark session
+   * @return Dataset[FlightRaw]
+   */
+  private def readFlights(spark: SparkSession) = {
+    spark.read
+      .option("header", value = true)
+      .schema(FlightConst.Schema)
+      .csv(FlightConst.File)
+      .as[FlightRaw]
+  }
+
+  /**
+   * Read passengers CSV file
+   *
+   * @param spark spark session
+   * @return Dataset[PassengerRaw]
+   */
+  private def readPassengers(spark: SparkSession) = {
+    spark.read
+      .option("header", value = true)
+      .schema(PassengerConst.Schema)
+      .csv(PassengerConst.File)
+      .as[PassengerRaw]
   }
 
   /**
@@ -86,11 +105,11 @@ object FlightDataAssignment {
     val dateToMonthDf = eliminateDupFlightDf
       .select(col(FlightConst.FlightId), month(col(FlightConst.Date)).alias(Month))
 
-    // sort by month ascending
-    val sortByMonthDf = dateToMonthDf.sort(col(Month))
+    // group by month
+    val groupByMonthDs = dateToMonthDf.groupBy(Month)
 
-    // group by month ascending
-    val groupByMonthDs = sortByMonthDf.groupBy(Month)
+    // sort by month ascending
+    val sortByMonthDf = groupByMonthDs.sort(col(Month))
 
     // get number of flights each month
     val numberOfFlightsEachMonthDf = groupByMonthDs
