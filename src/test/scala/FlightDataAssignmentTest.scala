@@ -48,7 +48,7 @@ class FlightDataAssignmentTest extends FunSuite {
     val ExpectedSchema = StructType(
       Array(
         StructField(FlightDataAssignment.Month, IntegerType, nullable = true),
-        StructField(FlightDataAssignment.NumberFlights, LongType, nullable = false)
+        StructField(FlightDataAssignment.NumberOfFlights, LongType, nullable = false)
       )
     )
 
@@ -106,7 +106,7 @@ class FlightDataAssignmentTest extends FunSuite {
     val expectedSchema = StructType(
       Array(
         StructField(FlightDataAssignment.PassengerId, StringType),
-        StructField(FlightDataAssignment.NumberFlights, LongType),
+        StructField(FlightDataAssignment.NumberOfFlights, LongType),
         StructField(FlightDataAssignment.FirstName, StringType),
         StructField(FlightDataAssignment.LastName, StringType)
       )

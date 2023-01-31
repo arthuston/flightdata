@@ -11,7 +11,7 @@ object FlightDataAssignment {
 
   // column names
   val Month = "Month"
-  val NumberFlights = "Number of Flights"
+  val NumberOfFlights = "Number of Flights"
   val PassengerId = "Passenger ID"
   val FirstName = "First Name"
   val LastName = "Last Name"
@@ -105,16 +105,14 @@ object FlightDataAssignment {
     val dateToMonths = eliminateDupFlights
       .select(col(FlightConst.FlightId), month(col(FlightConst.Date)).alias(Month))
 
+    // group by month and get count
+    val groupByMonths = dateToMonths.groupBy(Month).count().withColumnRenamed("count", NumberOfFlights)
+
     // sort by month ascending
-    val sortByMonths = dateToMonths.sort(col(Month))
+    val sortByMonths = groupByMonths.sort(col(Month))
 
-    // group by month
-    val groupByMonths = sortByMonths.groupBy(Month)
-
-    // get number of flights each month
-    val numberOfFlightsEachMonths = groupByMonths
-      .count().withColumnRenamed("count", NumberFlights)
-    numberOfFlightsEachMonths
+    // done
+    sortByMonths
   }
 
   /**
@@ -153,7 +151,7 @@ object FlightDataAssignment {
     // select output columns
     val passengerFlightCountColss = passengerFlightCountWithNamess.select(
       col(FlightAndPassengerConst.PassengerId).as(PassengerId),
-        col("count").as(NumberFlights),
+        col("count").as(NumberOfFlights),
         col(PassengerConst.FirstName).as(FirstName),
         col(PassengerConst.LastName).as(LastName)
       )
