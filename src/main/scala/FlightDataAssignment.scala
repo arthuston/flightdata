@@ -25,10 +25,6 @@ object FlightDataAssignment {
   private val Date2: String = "date2"
 
   def main(args: Array[String]) {
-    // input files
-    val FlightsCsv = "./input/flightData.csv"
-    val PassengersCsv = "./input/passengers.csv"
-
     // output files
     val TotalNumberOfFlightsEachMonthCsv = "./output/totalNumberOfFlightsEachMonth"
     val NamesOf100MostFrequentFlyersCsv = "./output/namesOfHundredMostFrequentFlyers"
@@ -45,16 +41,61 @@ object FlightDataAssignment {
     import spark.implicits._
 
     // read data
-    val flights = new Flights(spark, FlightsCsv)
-    val passengers = new Passengers(spark, PassengersCsv)
+    val flightDs = spark.read
+      .option("header", value = true)
+      .schema(FlightConst.Schema)
+      .csv(FlightConst.File)
+      .as[FlightRaw]
+    val passengerDs = spark.read
+      .option("header", value = true)
+      .schema(PassengerConst.Schema)
+      .csv(PassengerConst.File)
+      .as[PassengerRaw]
 
     // calculations
-    showAndSave(TotalNumberOfFlightsEachMonthCsv, totalNumberOfFlightsEachMonth(spark, flights.data()))
-    showAndSave(NamesOf100MostFrequentFlyersCsv, namesOf100MostFrequentFlyers(spark, flights.data(), passengers.data()))
-    showAndSave(GreatestNumberOfCountriesWithoutUKCsv, greatestNumberOfCountriesWithoutUK(spark, flights.data()))
-    showAndSave(PassengersWithMoreThan3FlightsTogetherCsv, passengersWithMoreThan3FlightsTogether(spark, flights.data(), 4))
+    showAndSave(TotalNumberOfFlightsEachMonthCsv, totalNumberOfFlightsEachMonth(spark, flightDs))
+    showAndSave(NamesOf100MostFrequentFlyersCsv, namesOf100MostFrequentFlyers(spark, flightDs, passengerDs))
+//    showAndSave(GreatestNumberOfCountriesWithoutUKCsv, greatestNumberOfCountriesWithoutUK(spark, flights)
+    showAndSave(PassengersWithMoreThan3FlightsTogetherCsv, passengersWithMoreThan3FlightsTogether(spark, flightDs, 4))
 
     spark.stop()
+  }
+
+  /**
+   * Find the total number of flights for each month.
+   * The output should be in the following format:
+   * Month  Number of Flights
+   * 1      123
+   * 2      456
+   * …      …
+   *
+   * @param spark - spark session*
+   * @param flightDs - flight dataset
+   * @return totalNumberOfFlightsEachMonth dataframe
+   */
+  def totalNumberOfFlightsEachMonth(
+    spark: SparkSession,
+    flightDs: Dataset[FlightRaw]
+  ): DataFrame = {
+    // eliminate duplicate flightID/Date
+    val eliminateDupFlightDf = flightDs
+      .groupBy(FlightConst.FlightId, FlightConst.Date)
+      .agg(Map.empty[String, String])
+
+    // convert date to month
+    val dateToMonthDf = eliminateDupFlightDf
+      .select(col(FlightConst.FlightId), month(col(FlightConst.Date)).alias(Month))
+
+    // sort by month ascending
+    val sortByMonthDf = dateToMonthDf.sort(col(Month))
+
+    // group by month ascending
+    val groupByMonthDs = sortByMonthDf.groupBy(Month)
+
+    // get number of flights each month
+    val numberOfFlightsEachMonthDf = groupByMonthDs
+      .count().withColumnRenamed("count", NumberFlights)
+    numberOfFlightsEachMonthDf
   }
 
   /**
@@ -65,43 +106,39 @@ object FlightDataAssignment {
    * 456	          75                Firstname   Lastname
    * …              …                 …           …
    *
-   * @param flights
-   * @param passengers
-   * @return
+   * @param spark - spark session
+   * @param flightDs - flight dataset
+   * @param passengerDs - passenger dataset
+   * @return namesOf100MostFrequentFlyers dataframe
    */
-  def namesOf100MostFrequentFlyers(spark: SparkSession, flightsDf: DataFrame, passengersDf: DataFrame, limit: Int = 100): DataFrame = {
-    flightsDf.withColumnRenamed(Flights.PassengerId, PassengerId)
-      .join(passengersDf, col(PassengerId) === col(Passengers.PassengerId), "outer")
-      .groupBy(PassengerId, Passengers.FirstName, Passengers.LastName)
-      .count().sort(col("count").desc)
-      .limit(limit)
-      .select(
-        col(PassengerId),
-        col("count").as(NumberFlights),
-        col(Passengers.FirstName).as(FirstName),
-        col(Passengers.LastName).as(LastName)
-      )
-  }
+  def namesOf100MostFrequentFlyers(
+    spark: SparkSession,
+    flightDs: Dataset[FlightRaw],
+    passengerDs: Dataset[PassengerRaw],
+    limit: Int = 100
+  ): DataFrame = {
+    // group flights by passengerId and get count
+    val passengerFlightCountDf = flightDs
+      .groupBy(FlightAndPassengerConst.PassengerId)
+      .count()
 
-  /**
-   * Find the total number of flights for each month.
-   * The output should be in the following format:
-   * Month  Number of Flights
-   * 1      123
-   * 2      456
-   * …      …
-   */
-  def totalNumberOfFlightsEachMonth(spark: SparkSession, flightsDf: DataFrame): DataFrame = {
-    flightsDf
-      // eliminate duplicate FlightId/Date
-      .groupBy(Flights.FlightId, Flights.Date).agg(Map.empty[String, String])
-      // convert date to month
-      .select(col(Flights.FlightId), month(col(Flights.Date)).alias(Month))
-      // sort and group by month
-      .sort(col(Month))
-      .groupBy(Month)
-      // get number of flights per month
-      .count().withColumnRenamed("count", NumberFlights)
+    // sort by count desc
+    val passengerFlightCountSortedDf = passengerFlightCountDf.sort(col("count").desc)
+
+    // take the first 'limit' counts
+    val passengerFlightCountLimitDf = passengerFlightCountSortedDf.limit(limit)
+
+    // join with passengers
+    val passengerFlightCountWithNamesDf = passengerFlightCountLimitDf.join(passengerDs, Seq(FlightAndPassengerConst.PassengerId))
+
+    // select output columns
+    val passengerFlightCountColsDf = passengerFlightCountWithNamesDf.select(
+      col(FlightAndPassengerConst.PassengerId).as(PassengerId),
+        col("count").as(NumberFlights),
+        col(PassengerConst.FirstName).as(FirstName),
+        col(PassengerConst.LastName).as(LastName)
+      )
+    passengerFlightCountColsDf
   }
 
   /**
@@ -115,15 +152,19 @@ object FlightDataAssignment {
    * …               …
    *
    * order the input by 'longest run in descending order'
+   *
+   * @param spark       - spark session
+   * @param flightDs    - flight dataset
+   * @param passengerDs - passenger dataset
+   * @return namesOf100MostFrequentFlyers dataframe
    */
-  def greatestNumberOfCountriesWithoutUK(spark: SparkSession, flightsDf: DataFrame) = {
-    val destinationsDf = flightsDf
-      .orderBy(Flights.PassengerId, Flights.Date)
-      .groupBy(Flights.PassengerId)
-      .agg(collect_list(col(Flights.To)).as("destinations"))
+  def greatestNumberOfCountriesWithoutUK(spark: SparkSession, flightDs: Dataset[FlightRaw]) = {
+    val destinationsDf = flightDs
+      .orderBy(FlightAndPassengerConst.PassengerId, FlightConst.Date)
+      .groupBy(FlightAndPassengerConst.PassengerId)
+      .agg(collect_list(col(FlightConst.To)).as("destinations"))
 
     import spark.implicits._
-//    import scala.collection.JavaConversions._
 
     val longestRunDs = destinationsDf.map(row => {
       // get longest run without going to UK
@@ -156,15 +197,15 @@ object FlightDataAssignment {
    *
    * order the input by 'number of flights flown together in descending order'.
    */
-  def passengersWithMoreThan3FlightsTogether(spark: SparkSession, flightsDf: DataFrame, minFlights: Int = 4) = {
-    val passengers1Df = flightsDf
-      .withColumnRenamed(Flights.PassengerId, PassengerId1)
-      .withColumnRenamed(Flights.FlightId, FlightId1)
-      .withColumnRenamed(Flights.Date, Date1)
-    val passengers2Df = flightsDf
-      .withColumnRenamed(Flights.PassengerId, PassengerId2)
-      .withColumnRenamed(Flights.FlightId, FlightId2)
-      .withColumnRenamed(Flights.Date, Date2)
+  def passengersWithMoreThan3FlightsTogether(spark: SparkSession, flightDs: Dataset[FlightRaw], minFlights: Int = 4) = {
+    val passengers1Df = flightDs
+      .withColumnRenamed(FlightAndPassengerConst.PassengerId, PassengerId1)
+      .withColumnRenamed(FlightConst.FlightId, FlightId1)
+      .withColumnRenamed(FlightConst.Date, Date1)
+    val passengers2Df = flightDs
+      .withColumnRenamed(FlightAndPassengerConst.PassengerId, PassengerId2)
+      .withColumnRenamed(FlightConst.FlightId, FlightId2)
+      .withColumnRenamed(FlightConst.Date, Date2)
 
     passengers1Df
       .join(

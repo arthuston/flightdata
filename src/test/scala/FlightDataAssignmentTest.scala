@@ -43,7 +43,7 @@ class FlightDataAssignmentTest extends FunSuite {
         Row("pass7", "flight6", "from", "to", Date.valueOf("2017-04-03")),
         Row("pass7", "flight7", "from", "to", Date.valueOf("2017-04-04"))
       ),
-      Flights.Schema)
+      FlightConst.Schema)
 
     val ExpectedSchema = StructType(
       Array(
@@ -91,7 +91,7 @@ class FlightDataAssignmentTest extends FunSuite {
         Row("pass4", "flight5", "from", "to", Date.valueOf("2017-01-01")),
         Row("pass4", "flight6", "from", "to", Date.valueOf("2017-01-01")),
       ),
-      Flights.Schema
+      FlightConst.Schema
     )
     val passengers = spark.createDataFrame(
       Seq(
@@ -101,7 +101,7 @@ class FlightDataAssignmentTest extends FunSuite {
         Row("pass3", "firstname3", "lastname3"),
         Row("pass4", "firstname4", "lastname4"),
       ),
-      Passengers.Schema)
+      PassengerConst.Schema)
 
     val expectedSchema = StructType(
       Array(
@@ -175,7 +175,7 @@ class FlightDataAssignmentTest extends FunSuite {
         Row("pass7", "flight6", "from", "to", Date.valueOf("2017-01-07")),
         Row("pass8", "flight6", "from", "to", Date.valueOf("2017-01-07")),
       ),
-      Flights.Schema)
+      FlightConst.Schema)
 
     val expectedSchema = StructType(
       Array(
@@ -268,7 +268,7 @@ class FlightDataAssignmentTest extends FunSuite {
         Row("pass6", "flight9", "from", "UK", Date.valueOf("2017-01-22")),
         Row("pass6", "flight9", "from", "UK", Date.valueOf("2017-01-23")), // 0
       ),
-      Flights.Schema)
+      FlightConst.Schema)
 
     val expectedSchema = StructType(
       Array(
