@@ -7,7 +7,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Fix totalNumberOfFlightsEachMonth sort">
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Refactor namesOf100MostFrequentFlyers">
       <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -260,7 +260,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675205496316</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Refactor namesOf100MostFrequentFlyers">
+      <created>1675205929996</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1675205929996</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -286,7 +293,8 @@
     <MESSAGE value="Add sample output" />
     <MESSAGE value="Refactor variable names" />
     <MESSAGE value="Fix totalNumberOfFlightsEachMonth sort" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix totalNumberOfFlightsEachMonth sort" />
+    <MESSAGE value="Refactor namesOf100MostFrequentFlyers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor namesOf100MostFrequentFlyers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -303,7 +311,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala</url>
-          <line>219</line>
+          <line>225</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>

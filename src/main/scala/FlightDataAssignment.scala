@@ -105,13 +105,19 @@ object FlightDataAssignment {
     val dateToMonths = uniqueFlights
       .select(col(FlightConst.FlightId), month(col(FlightConst.Date)).alias(Month))
 
-    // group by month, get count and sort
-    val groupAndSortByMonths = dateToMonths
+    // group by months
+    val groupByMonths = dateToMonths
       .groupBy(Month)
+
+    // count by months
+    val countByMonths = groupByMonths
       .count()
       .withColumnRenamed("count", NumberOfFlights)
+
+    // sort by month ascending
+    val sortByMonths = countByMonths
       .sort(col(Month))
-    groupAndSortByMonths
+    sortByMonths
   }
 
   /**
@@ -133,23 +139,31 @@ object FlightDataAssignment {
     passengers: Dataset[PassengerRaw],
     limit: Int = 100
   ): DataFrame = {
-    // group flights by passengerId and get count
-    val passengerFlightCountsSorted = flights
+    // group by passenger id
+    val groupByPassenger = flights
       .groupBy(FlightAndPassengerConst.PassengerId)
-      .count()
-      .sort(col("count").desc)
 
-    // take the first 'limit' counts
+    // number of flights per passenger
+    val passengerFlightCounts = groupByPassenger
+      .count()
+      .withColumnRenamed("count", NumberOfFlights)
+
+    // sort by number of flights descending
+    val passengerFlightCountsSorted = passengerFlightCounts
+      .sort(col(NumberOfFlights).desc)
+
+    // take the first 'limit' passengers
     val passengerFlightCountsLimit = passengerFlightCountsSorted.limit(limit)
 
-    // join with passengers
+    // join with passenger names
     val passengerFlightCountsWithNames = passengerFlightCountsLimit
       .join(passengers, Seq(FlightAndPassengerConst.PassengerId))
 
     // select output columns
-    val passengerFlightCountsResult = passengerFlightCountsWithNames.select(
-      col(FlightAndPassengerConst.PassengerId).as(PassengerId),
-        col("count").as(NumberOfFlights),
+    val passengerFlightCountsResult = passengerFlightCountsWithNames
+      .select(
+        col(FlightAndPassengerConst.PassengerId).as(PassengerId),
+        col(NumberOfFlights),
         col(PassengerConst.FirstName).as(FirstName),
         col(PassengerConst.LastName).as(LastName)
       )
@@ -174,14 +188,14 @@ object FlightDataAssignment {
    * @return namesOf100MostFrequentFlyers dataframe
    */
   def greatestNumberOfCountriesWithoutUK(spark: SparkSession, flights: Dataset[FlightRaw]) = {
-    val destinationss = flights
-      .orderBy(FlightAndPassengerConst.PassengerId, FlightConst.Date)
+    val destinations = flights
       .groupBy(FlightAndPassengerConst.PassengerId)
       .agg(collect_list(col(FlightConst.To)).as("destinations"))
+      .sort(FlightAndPassengerConst.PassengerId, FlightConst.Date)
 
     import spark.implicits._
 
-    val longestRuns = destinationss.map(row => {
+    val longestRuns = destinations.map(row => {
       // get longest run without going to UK
       val passengerId = row.getString(0)
       val destinations = row.getList[String](1).asScala
