@@ -97,22 +97,21 @@ object FlightDataAssignment {
     flights: Dataset[FlightRaw]
   ): DataFrame = {
     // eliminate duplicate flightID/Date
-    val eliminateDupFlights = flights
+    val uniqueFlights = flights
       .groupBy(FlightConst.FlightId, FlightConst.Date)
       .agg(Map.empty[String, String])
 
     // convert date to month
-    val dateToMonths = eliminateDupFlights
+    val dateToMonths = uniqueFlights
       .select(col(FlightConst.FlightId), month(col(FlightConst.Date)).alias(Month))
 
-    // group by month and get count
-    val groupByMonths = dateToMonths.groupBy(Month).count().withColumnRenamed("count", NumberOfFlights)
-
-    // sort by month ascending
-    val sortByMonths = groupByMonths.sort(col(Month))
-
-    // done
-    sortByMonths
+    // group by month, get count and sort
+    val groupAndSortByMonths = dateToMonths
+      .groupBy(Month)
+      .count()
+      .withColumnRenamed("count", NumberOfFlights)
+      .sort(col(Month))
+    groupAndSortByMonths
   }
 
   /**
@@ -135,27 +134,26 @@ object FlightDataAssignment {
     limit: Int = 100
   ): DataFrame = {
     // group flights by passengerId and get count
-    val passengerFlightCounts = flights
+    val passengerFlightCountsSorted = flights
       .groupBy(FlightAndPassengerConst.PassengerId)
       .count()
-
-    // sort by count desc
-    val passengerFlightCountSorteds = passengerFlightCounts.sort(col("count").desc)
+      .sort(col("count").desc)
 
     // take the first 'limit' counts
-    val passengerFlightCountLimits = passengerFlightCountSorteds.limit(limit)
+    val passengerFlightCountsLimit = passengerFlightCountsSorted.limit(limit)
 
     // join with passengers
-    val passengerFlightCountWithNamess = passengerFlightCountLimits.join(passengers, Seq(FlightAndPassengerConst.PassengerId))
+    val passengerFlightCountsWithNames = passengerFlightCountsLimit
+      .join(passengers, Seq(FlightAndPassengerConst.PassengerId))
 
     // select output columns
-    val passengerFlightCountColss = passengerFlightCountWithNamess.select(
+    val passengerFlightCountsResult = passengerFlightCountsWithNames.select(
       col(FlightAndPassengerConst.PassengerId).as(PassengerId),
         col("count").as(NumberOfFlights),
         col(PassengerConst.FirstName).as(FirstName),
         col(PassengerConst.LastName).as(LastName)
       )
-    passengerFlightCountColss
+    passengerFlightCountsResult
   }
 
   /**
