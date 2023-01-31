@@ -215,8 +215,16 @@ object FlightDataAssignment {
    * …                 …                   …
    *
    * order the input by 'number of flights flown together in descending order'.
+   *
+   * @param spark spark session
+   * @param flightDs flight dataset
+   * @param minFlights minimum number of flights together
    */
-  def passengersWithMoreThan3FlightsTogether(spark: SparkSession, flightDs: Dataset[FlightRaw], minFlights: Int = 4) = {
+  def passengersWithMoreThan3FlightsTogether(
+    spark: SparkSession,
+    flightDs: Dataset[FlightRaw],
+    minFlights: Int = 4
+  ) = {
     val passengers1Df = flightDs
       .withColumnRenamed(FlightAndPassengerConst.PassengerId, PassengerId1)
       .withColumnRenamed(FlightConst.FlightId, FlightId1)
