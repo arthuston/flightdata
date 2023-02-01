@@ -179,9 +179,9 @@ class FlightDataAssignmentTest extends FunSuite {
 
     val expectedSchema = StructType(
       Array(
-        StructField(FlightDataAssignment.PassengerId1, StringType),
-        StructField(FlightDataAssignment.PassengerId2, StringType),
-        StructField(FlightDataAssignment.NumberFlightsTogether, LongType),
+        StructField(FlightDataAssignment.FirstPassengerId, StringType),
+        StructField(FlightDataAssignment.SecondPassengerId, StringType),
+        StructField(FlightDataAssignment.NumberOfFlightsTogether, LongType),
       )
     )
 

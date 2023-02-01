@@ -1,7 +1,7 @@
 /** FlightDataAssignment main program. */
 package com.arthuston.flightdata
 
-import org.apache.spark.sql.functions.{col, collect_list, max, month}
+import org.apache.spark.sql.functions.{col, collect_list, max, month, second}
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SaveMode, SparkSession}
 
 import scala.Console.println
@@ -15,9 +15,9 @@ object FlightDataAssignment {
   val PassengerId = "Passenger ID"
   val FirstName = "First Name"
   val LastName = "Last Name"
-  val PassengerId1 = "Passenger 1 Id"
-  val PassengerId2 = "Passenger 2 Id"
-  val NumberFlightsTogether = "Number of Flights Together"
+  val FirstPassengerId = "Passenger 1 Id"
+  val SecondPassengerId = "Passenger 2 Id"
+  val NumberOfFlightsTogether = "Number of Flights Together"
   val LongestRun: String = "Longest Run"
   private val FlightId1: String = "flightId1"
   private val Date1: String = "date1"
@@ -235,26 +235,56 @@ object FlightDataAssignment {
     flights: Dataset[FlightRaw],
     minFlights: Int = 4
   ) = {
-    val passengers1s = flights
-      .withColumnRenamed(FlightAndPassengerConst.PassengerId, PassengerId1)
-      .withColumnRenamed(FlightConst.FlightId, FlightId1)
-      .withColumnRenamed(FlightConst.Date, Date1)
-    val passengers2s = flights
-      .withColumnRenamed(FlightAndPassengerConst.PassengerId, PassengerId2)
-      .withColumnRenamed(FlightConst.FlightId, FlightId2)
-      .withColumnRenamed(FlightConst.Date, Date2)
+    // get firstPassengers and secondPassengers aliases
+    val firstFlights = flights
+      .as("firstFlights")
+      .withColumnRenamed(FlightAndPassengerConst.PassengerId, FirstPassengerId)
+    val secondFlights = flights
+      .as("secondFlights")
+      .withColumnRenamed(FlightAndPassengerConst.PassengerId, SecondPassengerId)
 
-    passengers1s
+
+    def firstFlight(column: String) = {
+      "secondFlights.%s".format(column)
+    }
+
+    def secondFlight(column: String) = {
+      "secondFlights.%s".format(column)
+    }
+
+    // join on flightId and date where firstPassenger Id < secondPassengerId to avoid matching on same passenger
+    val passengersOnSameFlight = firstFlights
       .join(
-        passengers2s,
-        passengers1s(FlightId1) === passengers2s(FlightId2) &&
-          passengers1s(Date1) === passengers2s(Date2)
+        secondFlights,
+        col(firstFlight(FlightConst.FlightId)) === col(secondFlight(FlightConst.FlightId)) &&
+          col(firstFlight(FlightConst.Date)) === col(secondFlight(FlightConst.Date))
       )
-      .where(passengers1s(PassengerId1) < passengers2s(PassengerId2))
-      .groupBy(col(PassengerId1), col(PassengerId2)).count()
-      .orderBy(col("count").desc)
-      .where(col("count") >= minFlights)
-      .withColumnRenamed("count", NumberFlightsTogether)
+      .where(col(FirstPassengerId) < col(SecondPassengerId))
+
+    // group by first and second passenger id
+    val groupByPassengers = passengersOnSameFlight.groupBy(col(FirstPassengerId), col(SecondPassengerId))
+
+    // number of flights for first and second passenger id together
+    val countFlightsTogether = groupByPassengers
+      .count()
+      .withColumnRenamed("count", NumberOfFlightsTogether)
+
+    // limit flights together <= minFlights
+    val limitFlightsTogether = countFlightsTogether
+      .where(col(NumberOfFlightsTogether) <= minFlights)
+
+    // sort by flights together descending
+    val sortByFlightsTogether = limitFlightsTogether
+      .sort(col(NumberOfFlightsTogether).desc)
+
+    // select columns
+    val flightsTogetherResult = sortByFlightsTogether
+      .select(
+        col(FirstPassengerId),
+        col(SecondPassengerId),
+        col(NumberOfFlightsTogether)
+      )
+    flightsTogetherResult
   }
 
   private def showAndSave(path: String, df: DataFrame) = {
