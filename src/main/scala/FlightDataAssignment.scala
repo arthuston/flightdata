@@ -19,10 +19,6 @@ object FlightDataAssignment {
   val SecondPassengerId = "Passenger 2 Id"
   val NumberOfFlightsTogether = "Number of Flights Together"
   val LongestRun: String = "Longest Run"
-  private val FlightId1: String = "flightId1"
-  private val Date1: String = "date1"
-  private val FlightId2: String = "flightId2"
-  private val Date2: String = "date2"
 
   def main(args: Array[String]) {
     // output files
@@ -45,7 +41,7 @@ object FlightDataAssignment {
     // calculations
     showAndSave(TotalNumberOfFlightsEachMonthCsv, totalNumberOfFlightsEachMonth(spark, flights))
     showAndSave(NamesOf100MostFrequentFlyersCsv, namesOf100MostFrequentFlyers(spark, flights, passengers))
-//    showAndSave(GreatestNumberOfCountriesWithoutUKCsv, greatestNumberOfCountriesWithoutUK(spark, flights)
+//    showAndSave(GreatestNumberOfCountriesWithoutUKCsv, greatestNumberOfCountriesWithoutUK(spark, flights))
     showAndSave(PassengersWithMoreThan3FlightsTogetherCsv, passengersWithMoreThan3FlightsTogether(spark, flights, 4))
 
     spark.stop()
@@ -187,7 +183,11 @@ object FlightDataAssignment {
    * @param passengers - passenger dataset
    * @return namesOf100MostFrequentFlyers dataframe
    */
-  def greatestNumberOfCountriesWithoutUK(spark: SparkSession, flights: Dataset[FlightRaw]) = {
+  def greatestNumberOfCountriesWithoutUK(
+    spark: SparkSession,
+    flights: Dataset[FlightRaw],
+    notTo: Set[String] = Set[String]("UK")
+  ) = {
     val destinations = flights
       .groupBy(FlightAndPassengerConst.PassengerId)
       .agg(collect_list(col(FlightConst.To)).as("destinations"))
@@ -203,8 +203,7 @@ object FlightDataAssignment {
       var curWithoutUk = 0
       var maxWithoutUk = 0
       for (destination <- destinations) {
-        if (destination == "UK") {
-          maxWithoutUk = math.max(maxWithoutUk, curWithoutUk)
+        if (notTo contains destination) {
           curWithoutUk = 0
         } else {
           curWithoutUk += 1

@@ -7,7 +7,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Refactor passengersWithMoreThan3FlightsTogether">
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Refactor greatestNumberOfCountriesWithoutUK">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -281,7 +282,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675209809165</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Refactor passengersWithMoreThan3FlightsTogether">
+      <created>1675210333706</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1675210333706</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -310,7 +318,8 @@
     <MESSAGE value="Refactor namesOf100MostFrequentFlyers" />
     <MESSAGE value="Refactor totalNumberOfFlightsEachMonth and namesOf100MostFrequentFlyers" />
     <MESSAGE value="Refactor passengersWithMoreThan3FlightsTogether" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor passengersWithMoreThan3FlightsTogether" />
+    <MESSAGE value="Refactor greatestNumberOfCountriesWithoutUK" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor greatestNumberOfCountriesWithoutUK" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -327,12 +336,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala</url>
-          <line>233</line>
+          <line>232</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala</url>
-          <line>261</line>
+          <line>260</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
