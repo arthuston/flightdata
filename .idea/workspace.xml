@@ -7,10 +7,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Refactor totalNumberOfFlightsEachMonth and namesOf100MostFrequentFlyers">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Refactor passengersWithMoreThan3FlightsTogether">
       <change beforePath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/FlightDataAssignment.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/scala/FlightDataAssignmentTest.scala" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +274,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675206478909</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Refactor passengersWithMoreThan3FlightsTogether">
+      <created>1675209809165</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1675209809165</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -304,7 +309,8 @@
     <MESSAGE value="Fix totalNumberOfFlightsEachMonth sort" />
     <MESSAGE value="Refactor namesOf100MostFrequentFlyers" />
     <MESSAGE value="Refactor totalNumberOfFlightsEachMonth and namesOf100MostFrequentFlyers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor totalNumberOfFlightsEachMonth and namesOf100MostFrequentFlyers" />
+    <MESSAGE value="Refactor passengersWithMoreThan3FlightsTogether" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor passengersWithMoreThan3FlightsTogether" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

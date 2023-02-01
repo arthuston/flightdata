@@ -236,28 +236,28 @@ object FlightDataAssignment {
     minFlights: Int = 4
   ) = {
     // get firstPassengers and secondPassengers aliases
-    val firstFlights = flights
-      .as("firstFlights")
+    val firstPassengers = flights
+      .as("firstPassengers")
       .withColumnRenamed(FlightAndPassengerConst.PassengerId, FirstPassengerId)
-    val secondFlights = flights
-      .as("secondFlights")
+    val secondPassengers = flights
+      .as("secondPassengers")
       .withColumnRenamed(FlightAndPassengerConst.PassengerId, SecondPassengerId)
 
 
-    def firstFlight(column: String) = {
-      "secondFlights.%s".format(column)
+    def firstPassenger(column: String) = {
+      "firstPassengers.%s".format(column)
     }
 
-    def secondFlight(column: String) = {
-      "secondFlights.%s".format(column)
+    def secondPassenger(column: String) = {
+      "secondPassengers.%s".format(column)
     }
 
     // join on flightId and date where firstPassenger Id < secondPassengerId to avoid matching on same passenger
-    val passengersOnSameFlight = firstFlights
+    val passengersOnSameFlight = firstPassengers
       .join(
-        secondFlights,
-        col(firstFlight(FlightConst.FlightId)) === col(secondFlight(FlightConst.FlightId)) &&
-          col(firstFlight(FlightConst.Date)) === col(secondFlight(FlightConst.Date))
+        secondPassengers,
+        col(firstPassenger(FlightConst.FlightId)) === col(secondPassenger(FlightConst.FlightId)) &&
+          col(firstPassenger(FlightConst.Date)) === col(secondPassenger(FlightConst.Date))
       )
       .where(col(FirstPassengerId) < col(SecondPassengerId))
 
