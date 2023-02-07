@@ -4,8 +4,8 @@
 
 package com.arthuston.invitae.project.food.enforcement
 
-import org.apache.spark.sql.{Dataset, RelationalGroupedDataset, SparkSession}
-import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.{Dataset, RelationalGroupedDataset, Row, SparkSession}
+import org.apache.spark.sql.functions.{col, month, year}
 
 // list of top 10 "Class III" health hazard classification alerts, grouped by state and
 // further by status.
@@ -33,8 +33,9 @@ object FoodEnforcementCalculator {
    * State FL/Status Terminated: 27
    * ---
    *
-   * @param foodEnforcementResultsDs spark FoodEnforcementResults spark DataSet
-   * @return result spark DataFrame
+   * @param spark sparkSession
+   * @param foodEnforcementResultsDs spark FoodEnforcementResults DataSet
+   * @return spark FoodEnforcementResults DataSet
    */
   def top10ClassIIIAlertsByStateAndStatus(spark: SparkSession, foodEnforcementResultsDs: Dataset[FoodEnforcementResults]): Dataset[Top10ClassIIIAlertsByStateAndStatus] = {
 
@@ -52,8 +53,37 @@ object FoodEnforcementCalculator {
     // order by count descending
     val orderByCountDescending: Dataset[Top10ClassIIIAlertsByStateAndStatus] = stateAndStatusCount.sort(col("count").desc)
 
-    // limit 10
     val limit10: Dataset[Top10ClassIIIAlertsByStateAndStatus] = orderByCountDescending.limit(10)
     limit10
   }
+
+  /**
+   * Calculate the average number of reports per month in 2016
+   * case class AverageNumberOfReportsPerMonthIn2016(count: BigInt)
+   *
+   * Example output:
+   * 2. Average reports per month in 2016
+   * 251 reports
+   * ---
+   *
+   * @param spark sparkSession
+   * @param foodEnforcementResultsDs spark FoodEnforcementResults DataSet
+   * @return average number of reports per month in 2016
+   */
+  def averageNumberOfReportsPerMonthIn2016(spark: SparkSession, foodEnforcementResultsDs: Dataset[FoodEnforcementResults]): Int = {
+
+    // where year is 2016
+    val yearIs2016: Dataset[FoodEnforcementResults] = foodEnforcementResultsDs.where(year(col("report_date")) === 2016)
+
+    // get count
+    val getCount: Long = yearIs2016.count()
+
+    // get Average Per Month
+    val averagePerMonthFloat = getCount / 12.0
+
+    // round to nearest Int
+    val averagePerMonthInt = (averagePerMonthFloat + 0.5).toInt
+    averagePerMonthInt
+  }
 }
+
