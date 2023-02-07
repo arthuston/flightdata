@@ -6,6 +6,9 @@ package com.arthuston.invitae.project.food.enforcement
 object FoodEnforcement {
 
   def main(args: Array[String]): Unit = {
-    FoodEnforcementAPI.get(limit=FoodEnforcementAPI.MaxLimit)
+
+    // read all records
+    val data = FoodEnforcementAPI.get()
+    data
   }
 }

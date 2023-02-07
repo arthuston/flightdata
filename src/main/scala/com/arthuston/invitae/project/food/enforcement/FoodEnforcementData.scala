@@ -93,7 +93,7 @@ object FoodEnforcementDataImplicits {
   //  implicit val FoodEnforcementResultsSeqReads: Reads[Seq[FoodEnforcementResults]] = Reads.seq(FoodEnforcementResultsReads)
   implicit val foodEnforcementDataReads: Reads[FoodEnforcementData] = (
     (JsPath \ "meta").read[FoodEnforcementMeta] and
-      (JsPath \ "meta").read[Seq[FoodEnforcementResults]]
+      (JsPath \ "results").read[Seq[FoodEnforcementResults]]
     )(FoodEnforcementData.apply _)
 
 }

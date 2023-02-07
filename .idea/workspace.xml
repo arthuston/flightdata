@@ -7,10 +7,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Use akka">
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Use play-json">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/APIException.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/APIException.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcement.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcement.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementAPI.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementAPI.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementData.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementData.scala" afterDir="false" />
@@ -339,7 +337,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675541744940</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Use play-json">
+      <created>1675738833841</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1675738833841</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -370,7 +375,8 @@
     <MESSAGE value="Refactor passengersWithMoreThan3FlightsTogether" />
     <MESSAGE value="Refactor greatestNumberOfCountriesWithoutUK" />
     <MESSAGE value="Use akka" />
-    <option name="LAST_COMMIT_MESSAGE" value="Use akka" />
+    <MESSAGE value="Use play-json" />
+    <option name="LAST_COMMIT_MESSAGE" value="Use play-json" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -387,13 +393,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementAPI.scala</url>
-          <line>49</line>
+          <line>81</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>jar://$USER_HOME$/AppData/Local/Coursier/cache/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.12.10/scala-library-2.12.10-sources.jar!/scala/concurrent/impl/Promise.scala</url>
           <line>306</line>
           <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcement.scala</url>
+          <line>9</line>
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="scala-line">
+          <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementAPI.scala</url>
+          <line>78</line>
+          <option name="timeStamp" value="51" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
