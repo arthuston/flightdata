@@ -13,11 +13,14 @@ object FoodEnforcementAPI {
   private val Endpoint = "https://api.fda.gov/food/enforcement.json"
 
   /**
-   * Get FoodEnforcementData once (meta and results)
+   * Get FoodEnforcementData data (meta and results)
+   * This offers partial support for the query parameters in the API;
+   * a better implementation would offer full support for the query parameters.
+   *
    * @param search search field:term
    * @param limit maximum number of records to return (max 1000)
    * @param skip number of records to skip
-   * @return
+   * @return FoodEnforcementData data (meta and results)
    */
   private def getOnce(search: Option[String] = None, limit: Option[Int] = None, skip: Option[Int] = None): FoodEnforcementData = {
     // handle options
@@ -57,17 +60,20 @@ object FoodEnforcementAPI {
 
   /**
    * Get all FoodEnforcementData data (last meta and results)
+   * by combining multiple API calls until all data is returned.
+   * This offers partial support for the query parameters in the API;
+   * a better implementation would offer full support for the query parameters.
    *
    * @param search search field:term
    * @return FoodEnforcementData (last meta, all records)
    */
   def get(search: Option[String] = None): FoodEnforcementData = {
-    // get once
+    // get first
     val firstData = getOnce(search = search, limit = MaxLimit)
     var meta = firstData.meta
     var results = firstData.results
 
-    // get until we have all data
+    // get next until we have all data
     while (results.length < meta.results.total) {
       val nextData = getOnce(search = search, limit = MaxLimit, skip = Option[Int](results.length))
       meta = nextData.meta

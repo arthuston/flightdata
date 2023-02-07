@@ -4,20 +4,20 @@ ThisBuild / scalaVersion := "2.12.10"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "FoodEnforcement"
+    name := "FoodEnforcementReport"
   )
 
 
-//val AkkaVersion = "2.7.0"
-//val akkaHttpVersion = "10.4.0"
-val playVersion = "2.9.4"
-//val scalacticVersion = "2.8.1"
-////val sparkVersion = "2.4.8"
+val requestsVersion = "0.8.0"     // http requests
+val playVersion = "2.9.4"         // play json
+val nScalaTimeVersion = "2.32.0"  // nscala-time
+val sparkVersion = "3.2.2"        // spark
 
-val requestsVersion = "0.8.0"
 libraryDependencies ++= Seq(
   "com.lihaoyi" %% "requests" % requestsVersion,
-  "com.typesafe.play" %% "play-json" % playVersion
+  "com.typesafe.play" %% "play-json" % playVersion,
+  "com.github.nscala-time" %% "nscala-time" % nScalaTimeVersion,
+  "org.apache.spark" %% "spark-core" % sparkVersion,
+  "org.apache.spark" %% "spark-sql" % sparkVersion
 )
-
 
