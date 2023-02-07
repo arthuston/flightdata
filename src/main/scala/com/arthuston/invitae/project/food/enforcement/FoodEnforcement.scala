@@ -3,11 +3,9 @@
  */
 package com.arthuston.invitae.project.food.enforcement
 
-import spray.json.DefaultJsonProtocol.jsonFormat2
-
 object FoodEnforcement {
 
   def main(args: Array[String]): Unit = {
-    FoodEnforcementAPI.get()
+    FoodEnforcementAPI.get(limit=FoodEnforcementAPI.MaxLimit)
   }
 }
