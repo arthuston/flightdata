@@ -4,16 +4,18 @@
 
 package com.arthuston.invitae.project.food.enforcement
 
-import org.apache.spark.sql.{Dataset, RelationalGroupedDataset, Row, SparkSession}
+import org.apache.spark.sql.{DataFrame, Dataset, RelationalGroupedDataset, Row, SparkSession}
 import org.apache.spark.sql.functions.{col, month, year}
 
 // list of top 10 "Class III" health hazard classification alerts, grouped by state and
 // further by status.
 case class Top10ClassIIIAlertsByStateAndStatus(state: String, status: String, count: BigInt)
 
+// list of the top 10 states and the number of reports each had in 2017.
+case class TopTenStatesAndTotalReportsIn2017(state: String, count: BigInt)
+
 // food enforcement calculator
 object FoodEnforcementCalculator {
-
 
   /**
    * Get a list of top 10 "Class III" health hazard classification alerts, grouped by state and
@@ -33,11 +35,14 @@ object FoodEnforcementCalculator {
    * State FL/Status Terminated: 27
    * ---
    *
-   * @param spark sparkSession
+   * @param spark                    sparkSession
    * @param foodEnforcementResultsDs spark FoodEnforcementResults DataSet
    * @return spark FoodEnforcementResults DataSet
    */
-  def top10ClassIIIAlertsByStateAndStatus(spark: SparkSession, foodEnforcementResultsDs: Dataset[FoodEnforcementResults]): Dataset[Top10ClassIIIAlertsByStateAndStatus] = {
+  def top10ClassIIIAlertsByStateAndStatus(
+    spark: SparkSession,
+    foodEnforcementResultsDs: Dataset[FoodEnforcementResults]
+  ): Dataset[Top10ClassIIIAlertsByStateAndStatus] = {
 
     // select "Class III" health hazard classification alerts
     val classIIIAlerts: Dataset[FoodEnforcementResults] =
@@ -66,11 +71,14 @@ object FoodEnforcementCalculator {
    * 251 reports
    * ---
    *
-   * @param spark sparkSession
+   * @param spark                    sparkSession
    * @param foodEnforcementResultsDs spark FoodEnforcementResults DataSet
    * @return average number of reports per month in 2016
    */
-  def averageNumberOfReportsPerMonthIn2016(spark: SparkSession, foodEnforcementResultsDs: Dataset[FoodEnforcementResults]): Int = {
+  def averageNumberOfReportsPerMonthIn2016(
+    spark: SparkSession,
+    foodEnforcementResultsDs: Dataset[FoodEnforcementResults]
+  ): Int = {
 
     // where year is 2016
     val yearIs2016: Dataset[FoodEnforcementResults] = foodEnforcementResultsDs.where(year(col("report_date")) === 2016)
@@ -85,5 +93,51 @@ object FoodEnforcementCalculator {
     val averagePerMonthInt = (averagePerMonthFloat + 0.5).toInt
     averagePerMonthInt
   }
-}
 
+  /**
+   * Get list of the top 10 states and the number of reports each had in 2017.
+   *
+   * Example output:
+   * 3. Top States for 2017
+   * IL: 468
+   * CA: 293
+   * FL: 245
+   * NY: 227
+   * NH: 210
+   * PA: 188
+   * WA: 156
+   * TX: 143
+   * MA: 134
+   * OH: 123
+   * ---
+   *
+   * @param spark                    sparkSession
+   * @param foodEnforcementResultsDs spark FoodEnforcementResults DataSet
+   * @return list of the top 10 states and the number of reports each had in 2017.
+   */
+  def topTenStatesAndTotalReportsIn2017(
+    spark: SparkSession,
+    foodEnforcementResultsDs: Dataset[FoodEnforcementResults]
+  ): Dataset[TopTenStatesAndTotalReportsIn2017] = {
+
+    // where year is 2017
+    val yearIs2017: Dataset[FoodEnforcementResults] =
+      foodEnforcementResultsDs.where(year(col("report_date")) === 2017)
+
+    // group by state
+    val groupByState: RelationalGroupedDataset = yearIs2017.groupBy(col("state"))
+
+    // get count
+    import spark.implicits._
+    val getCount: Dataset[TopTenStatesAndTotalReportsIn2017] =
+      groupByState.count().as[TopTenStatesAndTotalReportsIn2017]
+
+    // order by count descending
+    val orderByCountDesc: Dataset[TopTenStatesAndTotalReportsIn2017] =
+      getCount.orderBy(col("count").desc)
+
+    // limit 10
+    val limit10 = orderByCountDesc.limit(10)
+    limit10
+  }
+}

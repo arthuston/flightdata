@@ -7,8 +7,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Add top10ClassIIIAlertsByStateAndStatus">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Add averageNumberOfReportsPerMonthIn2016">
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementCalculator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementCalculator.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementReport.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementReport.scala" afterDir="false" />
     </list>
@@ -352,7 +351,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675801025221</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Add averageNumberOfReportsPerMonthIn2016">
+      <created>1675808498491</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1675808498491</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -385,7 +391,8 @@
     <MESSAGE value="Use akka" />
     <MESSAGE value="Use play-json" />
     <MESSAGE value="Add top10ClassIIIAlertsByStateAndStatus" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add top10ClassIIIAlertsByStateAndStatus" />
+    <MESSAGE value="Add averageNumberOfReportsPerMonthIn2016" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add averageNumberOfReportsPerMonthIn2016" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

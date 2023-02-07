@@ -55,6 +55,19 @@ object FoodEnforcementReport {
     println(AverageNumberOfReportsPerMonthIn2016Format.format(averageNumberOfReportsPerMonthIn2016))
     println(SectionSeparator)
 
+    // calculate and print averageNumberOfReportsPerMonthIn2016
+    println("3. Top States for 2017")
+    val topTenStatesAndTotalReportsIn2017: Dataset[TopTenStatesAndTotalReportsIn2017] =
+      FoodEnforcementCalculator.topTenStatesAndTotalReportsIn2017(spark, foodEnforcementResultsDs)
+    topTenStatesAndTotalReportsIn2017.foreach(
+      stateAndTotalReportsIn2017 => {
+        println("%s: %d"
+          .format(stateAndTotalReportsIn2017.state, stateAndTotalReportsIn2017.count)
+        )
+      }
+    )
+    println(SectionSeparator)
+
     // done
     spark.stop()
   }

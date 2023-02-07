@@ -9,7 +9,7 @@ import requests.Response
 import scala.collection.mutable.ListBuffer
 
 object FoodEnforcementAPI {
-  val MaxLimit: Option[Int] = Option[Int](1000)
+  private val MaxLimit: Option[Int] = Option[Int](1000)
   private val Endpoint = "https://api.fda.gov/food/enforcement.json"
 
   /**
