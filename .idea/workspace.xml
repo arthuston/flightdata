@@ -7,12 +7,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Add highestAndLowest year counts.">
-      <change beforePath="$PROJECT_DIR$/sample-output/greatestNumberOfCountriesWithoutUK.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-output/namesOfHundredMostFrequentFlyers.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-output/passengersWithMoreThan3FlightsTogether.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sample-output/totalNumberOfFlightsEachMonth.csv" beforeDir="false" />
-    </list>
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Remove unused sample-output dir." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -374,7 +369,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675817062602</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Remove unused sample-output dir.">
+      <created>1675817169787</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1675817169787</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -410,7 +412,8 @@
     <MESSAGE value="Add averageNumberOfReportsPerMonthIn2016" />
     <MESSAGE value="Add topTenStatesAndTotalReportsIn2017" />
     <MESSAGE value="Add highestAndLowest year counts." />
-    <option name="LAST_COMMIT_MESSAGE" value="Add highestAndLowest year counts." />
+    <MESSAGE value="Remove unused sample-output dir." />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove unused sample-output dir." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
