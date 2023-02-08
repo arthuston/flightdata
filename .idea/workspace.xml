@@ -7,7 +7,9 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Add averageNumberOfReportsPerMonthIn2016">
+    <list default="true" id="02bc0230-07f9-49db-9f7e-d2cb8d7f9ce2" name="Changes" comment="Add topTenStatesAndTotalReportsIn2017">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementCalculator.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementCalculator.scala" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementReport.scala" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementReport.scala" afterDir="false" />
     </list>
@@ -78,7 +80,7 @@
     "project.structure.side.proportion": "0.2",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.build.tools.auto.reload": "ALL",
-    "settings.editor.selected.configurable": "build.tools"
+    "settings.editor.selected.configurable": "terminal"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -358,7 +360,14 @@
       <option name="project" value="LOCAL" />
       <updated>1675808498491</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Add topTenStatesAndTotalReportsIn2017">
+      <created>1675810404643</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1675810404643</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -392,7 +401,8 @@
     <MESSAGE value="Use play-json" />
     <MESSAGE value="Add top10ClassIIIAlertsByStateAndStatus" />
     <MESSAGE value="Add averageNumberOfReportsPerMonthIn2016" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add averageNumberOfReportsPerMonthIn2016" />
+    <MESSAGE value="Add topTenStatesAndTotalReportsIn2017" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add topTenStatesAndTotalReportsIn2017" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -404,33 +414,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="scala-line">
           <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementCalculator.scala</url>
-          <line>83</line>
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementReport.scala</url>
-          <line>51</line>
-          <option name="timeStamp" value="67" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementReport.scala</url>
-          <line>28</line>
-          <option name="timeStamp" value="68" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementReport.scala</url>
-          <line>31</line>
-          <option name="timeStamp" value="69" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementAPI.scala</url>
-          <line>83</line>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="scala-line">
-          <url>file://$PROJECT_DIR$/src/main/scala/com/arthuston/invitae/project/food/enforcement/FoodEnforcementAPI.scala</url>
-          <line>77</line>
-          <option name="timeStamp" value="71" />
+          <line>121</line>
+          <option name="timeStamp" value="74" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
